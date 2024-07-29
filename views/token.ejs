@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/header') %>
+  <div class="pageToken">
+    <div class="topTokenContainer">
+      <div class="columnContainer">
+        <div class="tokenImageBox" id="imgToken"></div>
+        <div id="postX" class="shareBox"></div>
+           <!-- <a className="twitter-share-button"
+              href="https://twitter.com/intent/tweet"
+              data-size="large"
+              data-text="My medal"
+              data-url="https://racetrophies.online/nft/10000000001"
+              data-hashtags="run,medal,nft"
+              data-via="wvirtualraces"
+              data-related="twitterapi,twitter">
+              Tweet
+              </a>  -->
+      </div>
+      <div class="columnContainer">
+        <div class="bottomContainer">    
+          <div class="bottomBox" id="attributes"></div>
+          <div class="bottomBox" id="owner" style="color:'#ffffff';margin-top:0"></div>
+        </div>      
+      </div>
+    </div>
+    <%- include('../partials/footer') %>
+  </div>
+  <script>
+    // https://stackoverflow.com/questions/44973038/how-to-close-sweet-alert-on-ajax-request-completion
+    document.addEventListener('DOMContentLoaded', function() {
+      Swal.fire({
+        title: "",
+        text: "Please wait.",
+        imageUrl: "/images/run1.gif",
+        showConfirmButton: false
+    });
+        fetch('/api/getToken?id=<%= token_id %>')
+            .then(response => response.json())
+            .then(data => {
+              swal.close()
+              console.log(data)
+              if(data.animation_url != undefined) {
+                var video = document.createElement('video')
+                video.src = data.animation_url.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/')
+                video.controls = true
+                video.autoplay = true;
+                video.loop = true;
+                video.muted = true; 
+                document.getElementById('imgToken').appendChild(video);
+              } else if(data.image != undefined) {
+                var image = document.createElement('img');
+                image.src = data.image.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/')
+                document.getElementById('imgToken').appendChild(image);
+              }
+              var twi = document.createElement('a');
+              var href="https://twitter.com/intent/tweet?text=Here's my digital medal: https://racetrophies.online/token/<%= token_id %> #run #medal #nft via @wvirtualraces"
+              twi.appendChild(document.createTextNode("Tweet"));
+              twi.classList.add("twitter-share-button")
+              twi.href = href
+              document.getElementById('postX').appendChild(twi)
+              // attributes 
+              data.attributes.forEach(element => {
+                var div = document.createElement('div');
+                div.classList.add('container')
+                var p1 = document.createElement('p')
+                p1.classList.add('label')
+                p1.innerHTML = element.trait_type
+                var p2 = document.createElement('p')
+                p2.classList.add('text')
+                p2.innerHTML = element.value
+                div.appendChild(p1)
+                div.appendChild(p2)
+                document.getElementById('attributes').appendChild(div)
+              });
+              // owner
+              var div = document.createElement('div');
+              div.classList.add("container") 
+              var p1 = document.createElement('p')
+              p1.classList.add("label")
+              p1.innerHTML = "Owner"
+              var p2 = document.createElement('p')
+              p2.classList.add("text")
+              p2.innerHTML = data.owner
+              div.appendChild(p1)
+              div.appendChild(p2)
+              div.style.width = 'calc(100% - 16px)'
+              document.getElementById('owner').appendChild(div)
+            })
+            .catch(error => {
+              swal.close()
+              console.error(error);
+            });
+    });
+    
+    async function reload() {}
+  </script>
+</body>
+</html>
+<!-- 
+const getRace = async (id: number | string, address?: string) => {
+  try {
+      const result = await mainApi.getToken(Number(id), address)
+      if(JSON.stringify(result)==='{}'){
+          navigate('/races')
+      }
+      setLoading(false)
+      setToken(result)
+      console.log('token:', result)
+  } catch (error) {
+      console.error('getToken error: ', error)
+      navigate('/races')
+  }
+      {
+    "name": "Sport Trophy #10000000001",
+    "description": "Speed race.\nAlexey Smirnov October 12, 2022 finished the 2 miles / 3.2 km race with start number 1 in 16:26",
+    "external_url": "https://runtothemoon.online/nft/10000000001",
+    "original_url": "https://runtothemoon.online/nft/10000000001",
+}
+} -->

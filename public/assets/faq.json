@@ -1,0 +1,182 @@
+[
+    {
+     "id": "1",
+     "question": "What is an NFT?",
+     "answer": "An NFT, or Non-Fungible Token, is a type of digital asset. Think of it like a unique piece of digital art or a digital collector's item that you can own."
+    },
+    {
+     "id": "2",
+     "question": "How does an NFT work?",
+     "answer": "NFTs work by using blockchain technology, which is like a digital ledger that records transactions. When you own an NFT, the blockchain records that you're the owner of that unique digital item."
+    },
+    {
+     "id": "3",
+     "question": "Why would I want a medal in the form of an NFT?",
+     "answer": "An NFT medal is a unique digital trophy that you can keep forever. It's a cool way to show off your achievement and you can even sell it or trade it in the future if you want."
+    },
+    {
+     "id": "4",
+     "question": "Is it safe to own an NFT?",
+     "answer": "Yes, it's generally safe to own an NFT. Just like owning anything valuable, you should keep it secure. In the case of NFTs, you'd keep them in a digital wallet."
+    },
+    {
+     "id": "5",
+     "question": "How do I store my NFT medal?",
+     "answer": "You store your NFT medal in a digital wallet. This is like a bank account for your digital assets."
+    },
+    {
+     "id": "6",
+     "question": "What is the value of an NFT?",
+     "answer": "The value of an NFT can vary. It depends on how much someone is willing to pay for it. Some NFTs have sold for a lot of money, but others might not be worth as much."
+    },
+    {
+     "id": "7",
+     "question": "Can I sell my NFT medal in the future?",
+     "answer": "Yes, you can sell your NFT medal. Just like a physical medal, you can sell it to someone who wants to buy it. You can sell NFTs on online marketplaces. It's a bit like buying or selling items on eBay, but for digital assets."
+    },
+    {
+     "id": "8",
+     "question": "What is a digital wallet and why do I need one for NFTs?",
+     "answer": "A digital wallet is like a bank account for your digital assets. You need one to store your NFTs and to make transactions, like buying or selling NFTs."
+    },
+    {
+     "id": "9",
+     "question": "How do I register for an online race?",
+     "answer": "You can register for an online race on the race's website. You'll need to fill out a form with your details and pay a registration fee."
+    },
+    {
+     "id": "10",
+     "question": "What equipment do I need to participate in an online race?",
+     "answer": "You'll need a device to track your run, like a smartphone or a GPS watch to track your distance and time. You'll also need comfortable running shoes and clothes."
+    },
+    {
+     "id": "11",
+     "question": "How long is the race and can I run at my own pace?",
+     "answer": "The length of the race will depend on the event. And yes, you can definitely run at your own pace. The important thing is to finish the race and have fun!"
+    },
+    {
+     "id": "12",
+     "question": "How do I send the results of my run?",
+     "answer": "You`ll need to send a screenshot or photo of your running app that shows you have completed your run. After you register, there will be a button on the same page to send your file."
+    },
+    {
+     "id": "13",
+     "question": "What happens if I can't complete the race?",
+     "answer": "That's okay! The goal is to do your best. If you can't complete the race, you can always try again next time."
+    },
+    {
+     "id": "14",
+     "question": "Can I participate in the race from anywhere in the world?",
+     "answer": "Yes, that's the beauty of online races. You can participate from anywhere as long as you can track your run."
+    },
+    {
+     "id": "15",
+     "question": "How will I receive my medal after the race?",
+     "answer": "For this race, you'll receive a digital medal in the form of an NFT. It will be sent to your digital wallet."
+    },
+    {
+     "id": "16",
+     "question": "What are some tips for first-time runners?",
+     "answer": "Start slow and gradually increase your distance. Listen to your body and rest if you need to. And most importantly, have fun!"
+    },
+    {
+     "id": "17",
+     "question": "What blockchain is the NFT medal hosted on?",
+     "answer": "We use Polygon."
+    },
+    {
+     "id": "18",
+     "question": "Can I transfer my NFT medal to a different wallet?",
+     "answer": "Yes, you can transfer your NFT medal to a different digital wallet. It's like moving a digital item from one account to another."
+    },
+    {
+     "id": "19",
+     "question": "Is the NFT medal a one-of-a-kind or part of a series?",
+     "answer": "There will be the same medal images for each race. But the description will be unique. It will include your name, age group, course time and other important parameters."
+    },
+    {
+     "id": "20",
+     "question": "What kind of metadata is included with the NFT medal?",
+     "answer": "The medal contains the following data: season, your start number, name and age group, distance and time, and date of run."
+    },
+    {
+     "id": "21",
+     "question": "What is the Polygon blockchain?",
+     "answer": "Polygon is a type of blockchain, which is like a digital ledger that keeps track of transactions. It's special because it's designed to work with the Ethereum blockchain but in a way that's faster and cheaper."
+    },
+    {
+     "id": "22",
+     "question": "How does the Polygon blockchain work?",
+     "answer": "Polygon works by creating a 'sidechain' to the Ethereum blockchain. This means it can process transactions faster and for less cost, but still keep the security benefits of the Ethereum blockchain."
+    },
+    {
+     "id": "23",
+     "question": "What is MATIC and why is it important?",
+     "answer": "MATIC is the cryptocurrency used on the Polygon blockchain. It's like the money you use to pay for things on the Polygon network."
+    },
+    {
+     "id": "24",
+     "question": "How can I get MATIC?",
+     "answer": "You can get MATIC by buying it on a cryptocurrency exchange, which is like a digital marketplace for buying and selling different types of cryptocurrencies. Or use the \"Buy\" option in some cryptocurrency wallets and purchase MATIC with a bank card"
+    },
+    {
+     "id": "25",
+     "question": "How is MATIC different from other cryptocurrencies?",
+     "answer": "MATIC is specifically designed to work with the Polygon network. It's used to pay for transactions and services within the Polygon ecosystem."
+    },
+    {
+     "id": "26",
+     "question": "Is it safe to use the Polygon blockchain and MATIC?",
+     "answer": "Yes, it's generally safe to use the Polygon blockchain and MATIC. Just like with any online activity, you should take precautions to keep your digital wallet and your MATIC secure."
+    },
+    {
+     "id": "27",
+     "question": "Why are we using the Polygon blockchain for this race?",
+     "answer": "We're using the Polygon blockchain because it allows us to give out NFT medals quickly and cheaply. It's also easy to use and secure."
+    },
+    {
+     "id": "28",
+     "question": "What is a digital wallet in the context of Polygon and MATIC?",
+     "answer": "A digital wallet is where you store your MATIC and any NFTs you own on the Polygon blockchain. It's like a digital purse or wallet."
+    },
+    {
+     "id": "29",
+     "question": "Why do I need to know about the Polygon blockchain and MATIC for this race?",
+     "answer": "You need to know about the Polygon blockchain and MATIC because the race is using them to give out NFT medals. You'll receive your medal on the Polygon blockchain, and you might need MATIC to pay for any transaction fees."
+    },
+    {
+     "id": "30",
+     "question": "How does the Polygon blockchain affect my participation in the race?",
+     "answer": "The Polygon blockchain is where you'll receive your NFT medal after the race. It doesn't affect the actual running of the race, but it's where you'll get your digital prize."
+    },
+    {
+     "id": "31",
+     "question": "Do I need to have MATIC to register for the race?",
+     "answer": "Yes, you`ll need some MATIC in your crypto account. The cost to participate is listed on the race page. You'll also need a little more MATIC because Polygon will require a small transaction fee. Usually a transaction fee costs less than one MATIC."
+    },
+    {
+     "id": "32",
+     "question": "How will I receive my NFT medal on the Polygon blockchain?",
+     "answer": "After the race, the organizers will send your NFT medal to your digital wallet on the Polygon blockchain. It's like getting a digital trophy in your online account- How does the Polygon blockchain track my race results? The Polygon blockchain doesn't track your race results. You'll use a running app to track your run, and then submit your results to the race organizers. They'll then send your NFT medal to your digital wallet on the Polygon blockchain."
+    },
+    {
+     "id": "33",
+     "question": "Can I use MATIC to buy running gear or other items for the race?",
+     "answer": "This depends on the seller. Some online stores or marketplaces might accept MATIC as payment, but many traditional stores probably won't."
+    },
+    {
+     "id": "34",
+     "question": "How do I use MATIC in my digital wallet?",
+     "answer": "You can use MATIC in your digital wallet to pay for transactions on the Polygon network. This might include buying or selling NFTs, or paying for other services."
+    },
+    {
+     "id": "35",
+     "question": "What happens to my NFT medal if something goes wrong on the Polygon blockchain?",
+     "answer": "The Polygon blockchain is designed to be secure and reliable, so it's unlikely something will go wrong. If there's a problem, the race organizers should be able to help you sort it out."
+    },
+    {
+     "id": "36",
+     "question": "Are there any gas fees associated with transactions on the Polygon blockchain?",
+     "answer": "Yes, there are gas fees on the Polygon blockchain, but they're usually much lower than on other blockchains. Gas fees are like a processing fee for making transactions."
+    }
+   ]

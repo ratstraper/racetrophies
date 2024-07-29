@@ -1,0 +1,33 @@
+<header style="width: 100%;">
+    <% if ( typeof theme != 'undefined' ) { %>
+      <nav role="navigation" class="primary-navigation">
+          <ul style="ul li a{color:#ddd;}">
+    <% } else { %>
+      <nav role="navigation" class="primary-navigation">
+          <ul style="ul li a{color:#333;}">
+    <% } %>
+
+          <li><a href="/">Home</a></li>
+          <li><a href="/rules">Participation Rules</a></li>
+          <li><a href="/races">All Races</a></li>
+          <% if ( typeof checkbox != 'undefined' ) { %>
+          <!-- <li>
+            <div>
+              <span class="margin-r"><%= checkbox %></span>
+              <label class="el-switch el-switch-green" style="font-size: 85%;">
+                <input type="checkbox" name="switch" id="header_switch" checked>
+                <span class="el-switch-style"></span>
+              </label>
+            </div>
+          </li> -->
+          <% } %>
+        </ul>
+        <div class="walletBox">
+          <% if ( typeof theme != 'undefined' ) { %>
+            <span id="hintWalletButton" style="color:white;font-size:16px;font-family:'Montserrat';font-weight: 400;">To Start</span><button id="connectWalletButton">Connect Wallet</button>
+          <% } else { %>
+            <span id="hintWalletButton" style="color:black;font-size:16px;font-family:'Montserrat';font-weight: 400;">To Start</span><button id="connectWalletButton">Connect Wallet</button>
+          <% } %>
+        </div>
+      </nav>
+</header> 

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/header') %>
+  <div class="page">
+    <div class="pageContent">
+      <h1>Rules of participation</h1>
+      <ul class="list">
+        <li>You can run all the distances in a season and collect all the provided NFT medals <img src="/images/help.svg" onClick="Swal.fire({ icon:'question', title:'What\'s an NFT', html:'<p>An NFT is just a visual element (image or video) combined with a set of data that can\'t be changed or counterfeit because the data exists on a blockchain (metadata).</p><p>Without the metadata the image does not have any verifiable history. This combination of image + data history = value to NFT technology.</p><p>Think of it like a unique piece of digital art or a digital collector\'s item that you can own.</p>'})" alt="help" /></li>
+        <li>In 1 season for 1 race you get 1 NFT medal</li>
+        <!-- <li>At the end of the season, winners can exchange their NFT finisher medals for prize NFTs</li>  -->
+        <li>You can dispose of the received NFT-medals at your own discretion. They can even be sold on specialized marketplaces<img src="/images/help.svg" onClick="Swal.fire({icon:'info', html:'<p>For example, on <a href=\'https://opensea.io/collection/sport-trophy\' target=\'_blanck\'>OpenSea</a> or any other site where NFTs are sold</p>'})" alt="help" /></li>
+        <li>If you have already received a finisher's NFT for a particular distance and you want to improve your result this season, you need to burn the existing NFT and register for this race again</li>
+        <li>If you have already sold an NFT medal, you cannot burn it. This can only be done by its current owner</li>
+        <li>If you did not have time to record the results of your race in the allotted time - disqualification</li>
+        <li>If your track does not meet the requirements of the distance, it is not fixed. But before the end of the race time limit, you can submit the correct track</li>
+        <li>We record the fact of your participation in the race in the blockchain. Almost forever, as long as the blockchain exists</li>
+        <li>We record the time of your race on our website and in your NFT metafile, which will be located in IPFS<img src="/images/help.svg" onClick="Swal.fire({icon:'question', title:'What\'s an IPFS', html:'<p>InterPlanetary File System is a distributed system for storing and accessing files, websites, applications, and data. You don\'t have to go into details, just know that we strive to make information more long-lasting and accessible.</p>'})" alt="help" />, which guarantees its invariability for the entire existence of the IPFS network</li>
+      </ul>    
+      <div class="buttonBox"><a href="/races" class="buttonBox"><Button class="buttonBlue">Choose your challenge</Button></a></div>
+    </div>
+  </div>
+  <%- include('../partials/footer') %>
+  <script>
+    async function reload() {}
+  </script>
+</body>
+</html>

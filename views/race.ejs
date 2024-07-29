@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('../partials/head') %>
+<style>
+  .pageContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0 30px;
+    margin-bottom: 150px;
+    margin-top: 0px;
+    .descContainer {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      @media (max-width: 600px) {
+        display: block;
+      }
+      .promoVideo {
+        width: 200;
+        height: 200;
+        margin: 0 0 40px 0;
+      }
+      .descBox {
+        width: 100%;
+        justify-content: center;
+        align-items: flex-start;   
+        h1 {
+          width: 100%;
+          text-align: left;
+        }
+        .textBox {
+          width: 100%;
+          margin: 0 32px;
+          margin-left: auto;
+          p {
+            font-family: 'Source Sans Pro Light';
+            font-style: normal;
+            font-weight: 300;
+            font-size: 24px;
+            line-height: 30px;
+            letter-spacing: 0.02em;
+            color: #000000;
+            text-align: left;
+            margin: 0 16px 40px 0;
+          }
+        }
+      }
+    }
+    .row {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      h2 {
+        width: 30%;
+        text-align: left;
+      }
+    }
+    .buttonBox {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      margin-top: 80px;
+    }
+  }
+  .BannerContainer {
+    width: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #eeeeee;
+    padding: 0 30px;
+    margin-bottom: 50px;
+    p {
+      font-family: 'Source Sans Pro Light';
+      font-style: normal;
+      font-weight: 300;
+      font-size: 20px;
+      line-height: 25px;
+      letter-spacing: 0.02em;
+      color: #000000;
+      text-align: left;
+    }
+    a {
+      text-decoration: none;
+      width: 50%;
+      margin-top: 40px;
+    }
+  }
+  .BannerConnectWallet {
+    width: 100%;
+    display: none;
+    padding: 0 30px;
+    background: rgba(255, 3, 3, 0.41);
+    margin-bottom: 19px;
+    h4 {
+      font-style: normal;
+      font-size: 40px;
+      line-height: 44px;
+      text-align: center;
+      color: #911515;
+      margin: 10px;
+    }
+  }
+  .statusesContentContainer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    /* .selectBox {
+      max-width: 440px;
+      width: 100%;
+    } */
+    .row {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      h2 {
+        width: 40%;
+        text-align: left;
+        align-self: center;
+        @media (max-width: 400px) {
+          font-size: 20px;
+        } 
+      }
+      .box {
+        width: 60%;
+        display: flex;
+        justify-content: flex-start;
+        .rowValue {
+          width: 100%;
+          @media (max-width: 400px) {
+            font-size: 18px;
+          }
+        }
+        input, select {
+          width:100%;
+          max-width: 440px;
+          border: 1px dotted #0085FF;
+          border-radius: 2px;
+          font-family: 'Montserrat';
+          font-weight: 400;
+          font-size: 18px;
+          padding: 12px 8px 12px 8px;
+          input[type=text]:focus {
+            border: 2px solid #0085FF;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+  .rowsBox {
+    width: 60%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    h2 {
+      width: 100%;
+    }
+  }
+  /* .selectBox {
+    max-width: 440px;
+    width: 100%;
+  } */
+  .uploadBox {
+    width: 100%;
+    height: 191px;
+    border: 1px dashed #000000;
+    border-radius: 8px;
+    margin-top: 68px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    cursor: pointer;
+    background: #EAF4FF;
+    position: relative;
+    input {
+      display: block;
+      opacity: 0;
+      z-index: 9999;
+      border: 1px solid red;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    h1,p{
+      width: 100%;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+    }
+  }
+</style>
+</head>
+<body>
+  <%- include('../partials/header') %>
+  <div class="page">
+      <Header isMenu={false} userName={athlete.name}/>
+      <div class="BannerContainer" id="bannerDownLoadWallet">
+          <p>We reward our participants with virtual digital NFT medals. You need a virtual medal hanger to store your virtual trophies. Therefore, to register for races, payments and receive medals, you need to have a crypto wallet. A crypto wallet is an app that is installed on your mobile, manages your crypto account, and stores your crypto money and NFT digital trophies.</p>
+          <p>Install crypto wallet <a href="https://trustwallet.com/" target="_blank">Trust Wallet</a> or <a href="https://metamask.io/" target="_blank">Metamask</a> and your virtual medal hanger is always in your pocket!</p>
+      </div>
+      <div class="BannerConnectWallet" id="bannerConnectWallet">
+        <h4>Attach  your wallet in order to have access to all the features of the site in the future.</h4>
+      </div>
+
+      <div class="pageContainer">
+        <div class="descContainer">
+          <div class="descBox">
+            <h1 id="race_title">{...loading}</h1>
+            <div class="textBox">
+              <p id="race_desc">{...loading}</p>
+            </div>
+          </div>
+          <div>
+            <h1>&nbsp;</h1> 
+            <div class="promoVideo" id="promoContainer"></div>
+          </div>
+        </div>
+      
+        <div class="statusesContentContainer" id="statusesContentContainer">
+          <div class="row" id="athlete_name_row" style="display:none;">
+            <h2>Member Name:</h2>
+            <div class="box">
+                <h2 class="rowValue">
+                  <span id="athlete_name_text">{...loading}</span>
+                  <span id="athlete_name_input" style="display: inline;"><input type="text" id="name" name="name" value="athlete.name!"></span>
+                  <img src="/images/help.svg" onClick="Swal.fire({icon:'info',html:'The name you write here will be registered in your account and in your scorecard and in each of your NFT awards.'})" alt="info"/>
+                </h2>
+            </div>
+            <!-- <div class="box" id="athlete_name_input" style="display:none;">
+              <input type="text" id="name" name="name" style="width:'100%';max-width:'440px';">
+                <TextField  variant="standard" 
+                            label="name" 
+                            value="athlete.name!"
+                            name="name"
+                            onChange="{handleChange}""
+                            error="isEmpty(athlete.name)"
+                  /> 
+            </div> -->
+          </div>
+          <!-- const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+              onChange(event)
+          } -->
+          <div class="row" id="age_row" style="display:none;">
+            <h2>Date of Birth:</h2>
+            <div class="box">
+              <h2 class="rowValue">
+                <span id="age_text">{...loading}</span> 
+                <span id="age_input"><input type="date" id="date" name="age"></span> 
+                <img src="/images/help.svg" onClick="Swal.fire({icon:'info',html:'The date of birth will be saved once in a secure place in the blockchain and will be used to calculate your age at the time of the race. This is needed to determine your age category.'})" alt="info" />
+              </h2>
+            </div>
+          </div>
+
+          <div class="row" id="gender_row" style="display:none;">
+            <h2>Gender:</h2>
+            <div class="box">
+                <h2 class="rowValue">
+                  <span id="gender_text">{...loading}</span> 
+                  <span id="gender_input">                      
+                    <select name="sex" id="sex">
+                      <option value="female">female</option>
+                      <option value="male">male</option>
+                    </select></span> 
+                </h2>
+                <!-- <div class="selectBox" id="select_gender" style="display:none;"> -->
+                  <!-- <FormControl fullWidth> -->
+                    <!-- <Select
+                        value={athlete.sex}
+                        placeholder={athlete.sex}
+                        label="Gender"
+                        name="sex"
+                        onChange={handleChange}
+                        error={isEmpty(athlete.sex)}
+                    >   -->
+                    <!-- <label for="sex">Gender:</label>
+                    <select name="sex" id="sex" style="width:'100%';max-width:'440px';">
+                      <option value="female">female</option>
+                      <option value="male">male</option>
+                    </select> -->
+                <!-- </FormControl> -->
+              <!-- </div> -->
+            </div>
+          </div>
+
+          <div class="row"><h2>Distance:</h2><div class="box"><h2 class="rowValue" id="race_distance">{...loading}</h2></div></div>
+          <div class="row"><h2>Run date:</h2><div class="box"><h2 class="rowValue" id="race_data">{...loading}</h2></div></div>
+
+          <div class="row" id="promocode_row" style="display:none;">
+            <h2>Promo code:</h2>
+            <div class="box">
+              <h2 class="rowValue">
+                <span id="promocode_text">{...loading}</span> 
+                <span id="promocode_input">  
+                  <input type="text" placeholder="Enter certificate Id" id="promocode" name="promocode"required value={promocode} style="width:'100%';max-width:'440px';">                    
+                </span> 
+              </h2>
+            </div>
+          </div>
+
+          <div class="row" id="race_price_row" style="display:none;">
+            <h2>Price:</h2>
+            <div class="box">
+              <h2 class="rowValue" id="race_price">{...loading}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="statusesContentContainer" id="stateContentContainer" style="display:none;">
+          <div class="row" id="start_number_row">
+            <h2>Start number:</h2> <!-- value= {athlete?.bib!} -->
+            <div class="box">
+              <h2 class="rowValue">
+                <span id="start_number_text">{...loading}</span>
+                <a class="downloadLink" id="start_number_link" href="" target="_blank">
+                  <Button disabled class="buttonBlue">Download for print</Button>
+                </a>
+            </div>
+          </div>
+
+          <div class="row" id="tracks_row">
+            <!-- if (status === 4) return ( -->
+              <h2>Track:</h2>
+              <div class="rowsBox" id="tracks_value"> <!-- values={tracks} -->
+                <!-- {values && values.map((value: any, idx: number) => 
+                    value.date !== '//' && 
+                  <h2 key={idx} className={classes.rowValue}>{`${idx + 1}. ${value?.date!} - ${value?.original_file}`}</h2>
+                )} -->
+              </div> 
+          </div>
+          <!-- {/* total */} -->
+
+          <div class="row" id="upload_row">
+              <!-- <UploadFile multiple={true} name="uloader" onChange={onUpload} value={files} isUploaded={isUploaded} >
+                  <h1>Upload on track</h1>
+                  <p>drag file here</p>
+                  <p style="text-decoration:'underline'">or select file from disk</p>
+              </UploadFile> -->
+            <!-- if (isUploaded) return (
+              <div className={classes.Upload} >
+                  <h1>File download success</h1>
+              </div>
+          ) -->
+              <label class="uploadBox" id="upload_box" style="background:#E5E5E5;"> 
+                  <!-- { disabled ? { background: '#E5E5E5' } : { background: '#EAF4FF' }}> -->
+                  <h1>Upload on track</h1>
+                  <p>drag file here</p>
+                  <p style="text-decoration:'underline'">or select file from disk</p>
+                <input
+                    name="uloader"
+                    type="file"
+                    hidden
+                    value={files}
+                    onChange={handleChange}
+                    multiple=true
+                    disabled={disabled}
+                    onDrop={handleDrop}
+                />
+            </label>
+            <!-- if disabled
+            <UploadFile disabled multiple={true} name="uloader" onChange={onUpload} value={files} isUploaded={isUploaded} >
+              <h1 style="color:'#FF0303'">Time out</h1>
+            </UploadFile> -->
+
+          </div>
+        </div>
+
+        <div class="nftDetailContainer" id="nftDetail" style="display:none;">
+          <div class="tokenContainer">
+            <div class="tokenImageBox">
+                {athlete?.nftAnimation && athlete?.nftAnimation.length > 0 
+                ?
+                <video autoPlay loop src={athlete?.nftAnimation!.replace('ipfs://', 'https://ipfs.io/ipfs/')}></video>
+                :
+                athlete.nftImage && <img src={athlete?.nftAnimation!.replace('ipfs://', 'https://ipfs.io/ipfs/')} alt="" />
+            }
+                
+            </div>
+            <div class=descBox">
+                <p>{athlete.description!}</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>Contract#  {athlete.contract}</p>
+                <p class="TokenPageLink" onClick={() => navigate(`/token/${athlete.tokenId!}`)}>Token# {athlete.tokenId}</p>
+            </div>
+          </div>
+          <div class="tokenBottomContainer">
+            <div class="socialbBox"></div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <%- include('../partials/footer') %>
+  <script>
+
+    document.getElementById('bannerDownLoadWallet').style.display = (typeof window.ethereum == 'undefined') ? 'flex' : 'none'
+
+    async function loadRace() {
+      account = await getAddress() 
+      document.getElementById('bannerConnectWallet').style.display = account == undefined ? 'flex' : 'none'
+      // document.getElementById('athlete_name_row').style.display = account == undefined ? 'none' : 'flex'
+      // document.getElementById('age_row').style.display = account == undefined ? 'none' : 'flex'
+      // document.getElementById('gender_row').style.display = account == undefined ? 'none' : 'flex'
+
+      fetch(`/api/getRace?race=<%= race_id %>&wallet=${account}`) 
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          document.getElementById('race_title').innerHTML = data.race.title
+          document.getElementById('race_desc').innerHTML = data.race.description
+
+          if(data.race !== undefined) {
+            document.getElementById('race_distance').innerHTML = data.race.distance
+            document.getElementById('race_data').innerHTML = data.race.timeout
+            document.getElementById('promoContainer').innerHTML = ''
+            if(data.race.video_promo !== undefined && data.race.video_promo.length > 0) {
+              var video = document.createElement('video')
+              var host = '<%= process.env.HOST_URL %>'
+              video.src = host + data.race.video_promo
+              video.width = 320
+              video.height = 320
+              video.volume = 0.05
+              video.controls = true
+              video.autoplay = true
+              video.loop = true
+              video.muted = true
+              document.getElementById('promoContainer').appendChild(video);
+            } else if(data.race.image_promo !== undefined && data.race.image_promo.length > 0) {
+            } else if(data.race.image_race !== undefined && data.race.image_race.length > 0) {
+              var image = document.createElement('img')
+              var host = '<%= process.env.HOST_URL %>'
+              image.src = host + data.race.image_race
+              image.width = 320
+              image.alt = data.race.title
+              // image.height = 320
+              document.getElementById('promoContainer').appendChild(image);              
+            }
+          } else {
+            document.getElementById('race_distance').style.display="none"
+            document.getElementById('race_data').style.display="none"               
+          }
+          prepareScreen(data)
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      loadRace()
+    })
+
+    async function reload() {
+      loadRace()
+    }
+  </script>
+  <script type="text/javascript" src="/js/race.js"></script>
+</body>
+</html>
+
+<!--
+  getRace = async (id: number | string, address: string = '') => this.instance.get(`/api/getRace?race=${id}&wallet=${address}`)
+    const getRace = async (id: number | string, address?: string) => {
+        try {
+            const result = await mainApi.getRace(Number(id), address)
+            console.log(result)
+            setRace(result.race!)
+            setStatus(Number(result?.status))
+            if(result?.tracks) setTraks(result?.tracks)
+            if(result?.athlete !== undefined) {
+                if(!!result?.athlete!.age) setAthlete(result.athlete!)
+            }
+            setLoading(false)
+        } catch (error) {
+            console.error('getRace error: ', error)
+        }
+    }
+
+
+
+
+
+.nftDetailContainer
+  width: 100%
+  display: flex
+  justify-content: space-between
+  align-items: flex-start
+  flex-wrap: wrap
+  margin-top: 120px
+  .tokenContainer
+    width: 100%
+    display: flex
+    justify-content: flex-start
+    @media (max-width: 900px)
+      flex-wrap: wrap
+    .tokenImageBox
+      display: flex
+      justify-content: flex-start
+      align-items: center
+      width: 100%
+      @media (max-width: 900px)
+        justify-content: center
+      img, video
+        max-width: 500px
+        width: auto
+        @media (max-width: 500px)
+          width: 250px
+    .tokenDescription
+      width: 100%
+      display: flex
+      justify-content: flex-end
+      flex-wrap: wrap
+      p
+        width: 100%
+        text-align: left
+        @media (max-width: 900px)
+          text-align: center
+          margin-top: 24px
+      
+  .tokenBottomContainer
+    display: flex
+    justify-content: space-between
+    align-items: flex-start 
+    width: 100%
+    margin-top: 75px  
+    @media (max-width: 900px)
+      flex-wrap: wrap
+    .socialbBox
+      width: 100%
+    .tokenContractInfo
+      width: 100%
+      text-align: left
+.downloadLink
+  width: 100%
+  display: flex
+  justify-content: center
+  align-items: center
+  text-decoration: none
+  
+  button
+    width: 100%
+    max-width: 680px
+    height: 58px
+    background: #0085FF !important
+    border-radius: 2px
+    font-family: 'Montserrat'
+    font-style: normal
+    font-weight: 400
+    font-size: 24px
+    line-height: 29px
+    display: flex
+    align-items: center
+    text-align: center
+    text-transform: uppercase
+    color: #FFFFFF
+    text-decoration: none
+    @media (max-width: 400px)
+      font-size: 12px
+      line-height: 20px
+.TokenPageLink
+  text-decoration: underline
+  cursor: pointer
+  
+-->

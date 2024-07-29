@@ -1,0 +1,82 @@
+.el-switch,
+.el-switch-style,
+.el-switch-style:before{
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
+}
+.el-switch{
+  display:inline-block;
+  font-size:100%;
+  height:1.6em;
+  position:relative;
+}
+.el-switch .el-switch-style{
+  height:1.6em;
+  left:0;
+  background:#bcd;
+  -webkit-border-radius:.8em;
+  border-radius:.8em;
+  display:inline-block;
+  position:relative;
+  top:0;
+  -webkit-transition:all .3s ease-in-out;
+  transition:all .3s ease-in-out;
+  width:3em;
+  cursor:pointer;
+}
+.el-switch .el-switch-style:before{
+  display:block;
+  content:'';
+  height:1.4em;
+  position:absolute;
+  width:1.4em;
+  background-color:#fff;
+  -webkit-border-radius:50%;
+  border-radius:50%;
+  left:.1em;
+  top:.1em;
+  -webkit-transition:all .3s ease-in-out;
+  transition:all .3s ease-in-out;
+}
+.el-switch>input[type="checkbox"]{
+  display:none;
+}
+.el-switch>input[type="checkbox"][disabled]+.el-switch-style{
+  cursor:not-allowed;
+  background-color:#cde;
+}
+.el-switch>input[type="checkbox"]:checked+.el-switch-style{
+  background-color:#29f;
+}
+.el-switch>input[type="checkbox"]:checked+.el-switch-style:before{
+  left:50%;
+}
+.el-switch>input[type="checkbox"]:checked[disabled]+.el-switch-style{
+  background-color:#adf;
+}
+.el-switch.el-switch-blue>input[type="checkbox"]:checked+.el-switch-style{
+  background-color:#29f;
+}
+.el-switch.el-switch-blue>input[type="checkbox"]:checked[disabled]+.el-switch-style{
+  background-color:#adf;
+}
+.el-switch.el-switch-green>input[type="checkbox"]:checked+.el-switch-style{
+  background-color:#1c6;
+}
+.el-switch.el-switch-green>input[type="checkbox"]:checked[disabled]+.el-switch-style{
+  background-color:#9eb;
+}
+.el-switch.el-switch-red>input[type="checkbox"]:checked+.el-switch-style{
+  background-color:#f44;
+}
+.el-switch.el-switch-red>input[type="checkbox"]:checked[disabled]+.el-switch-style{
+  background-color:#faa;
+}
+.el-switch.el-switch-yellow>input[type="checkbox"]:checked+.el-switch-style{
+  background-color:#fb3;
+}
+.el-switch.el-switch-yellow>input[type="checkbox"]:checked[disabled]+.el-switch-style{
+  background-color:#feb;
+}
+

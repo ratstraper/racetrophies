@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('../partials/head') %>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.spincrement.js"></script>    
+</head>
+<body>
+    <!-- <%- include('../partials/header') %> -->
+    <!-- <w3m-core-button></w3m-core-button> -->
+    <!-- <script src="/js/main.js" type="module"></script> -->
+    <div class="page">
+        <section class="topContainer">
+            <div class="mainBox">
+                <div class="imageBox">
+                    <img src="/images/imageMain4.webp" alt="Virtual Running, NFT Trophy" />
+                </div>
+                <div class="descBox">
+                    <div class="textBox">
+                        <h1>Run to the Moon and Back</h1>
+                        <p>Together we conquer the distance in different parts of the Earth, connecting the road and the sky.</p>
+                    </div>
+                    <div class="buttonBox"><a href="/races" class="buttonBox"><Button class="buttonBlue">View all races</Button></a></div>
+                </div>
+            </div>
+            <div class="descBox">
+                <p >We have now run <span class="run_meters">0.00</span> kilometers out of <span id="total_meters">384,400.00</span> to the moon</p>
+            </div>
+        </section>
+
+        <section class="bottomContainer">
+            <div class="container">
+                <div class="roadImageBox">
+                    <img src="/images/road.webp" alt="Digital awards for sports events"/>
+                </div>
+                <div class="buttonBox"><a href="/races" class="buttonBox"><Button class="buttonBlue">View all races</Button></a></div>
+            </div>
+            <div class="container">
+                <div class="roadImageBox">
+                    <img src="/images/token-image1.webp" alt="Digital trophies in sporting events"/>
+                </div>
+                <div class="buttonBox"></div><a href="/rules" class="buttonBox"><Button class="buttonBlue buttonOrange">Rules of participation</Button></a></div>
+            </div>
+        </section>
+        <section class="description">
+            <h1>NFT medals <img src="/images/help.svg" onClick="fire('question', 'What\'s an NFT', '<p>An NFT is just a visual element (image or video) combined with a set of data that can\'t be changed or counterfeit because the data exists on a blockchain (metadata).</p><p>Without the metadata the image does not have any verifiable history. This combination of image + data history = value to NFT technology.</p><p>Think of it like a unique piece of digital art or a digital collector\'s item that you can own.</p>')" alt="help" /></h1>
+            <p>We are the first who organizes online races with record your competition results on the blockchain and reward you with NFT medals.</p>
+            <p>We have no doubt that NFT rewards will be used in all sports competitions very soon. But currently we're the only ones doing it. You can own NFT, boast about them to your friends. Or you can sell them to collectors and buy for yourself a new pair of running shoes. Moreover, the first NFT rewards will be valued higher.</p>
+            <p>2% of the money raised from the races will be transferred to organizations to reduce the carbon dioxide emission.</p>
+        </section>
+        <%- include('../partials/footer') %>
+    </div>
+        <%- include('../partials/swal') %>
+        <!-- <script>
+            $(document).ready(function() {
+                $.ajax({
+                    url: '/api/getAllMeters',
+                    method: 'GET',
+                    success: function(data) {
+                        $('#total_meters').text(data.total_meters);
+                        $('#run_meters').text(data.run_meters);
+                    },
+                    error: function(error) {
+                        // $('#total_meters').text('Произошла ошибка при получении данных');
+                        console.error(error);
+                    }
+                });
+            });
+        </script> -->
+        <script>
+            // async function readFromStream(stream) {
+            //     const reader = stream.getReader();
+            //     const decoder = new TextDecoder();
+            //     let result = '';
+
+            //     try {
+            //         while (true) {
+            //             const { done, value } = await reader.read();
+            //             if (done) {
+            //                 break;
+            //             }
+            //             result += decoder.decode(value, { stream: true });
+            //         }
+            //     } catch (error) {
+            //         console.error('Ошибка при чтении потока:', error);
+            //     } finally {
+            //         reader.releaseLock();
+            //     }
+
+            //     return result;
+            // }
+
+            // document.addEventListener('DOMContentLoaded', function() {
+            //     fetch('/api/mongo/getRace?race=17')
+            //         // .then(response => response.json())
+            //         .then(response => readFromStream(response.body))
+            //         .then(data => {
+            //             console.log("race:", data)
+            //         })
+            //         .catch(error => {
+            //             console.error(error);
+            //         });
+            // });       
+            document.addEventListener('DOMContentLoaded', function() {
+                fetch('/api/getAllMeters')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('total_meters').textContent = data.total_meters;
+                        $('.run_meters').spincrement({
+                            from: 0,
+                            to: Number(data.run_meters),
+                            decimalPlaces: 2
+                        })
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+            async function reload() {}
+        </script>
+        <!-- <script type="text/javascript" src="/main.js"></script> -->
+        <!-- <script type="module" src="/js/web3.js"></script> -->
+        <!-- <script src="/js/ethers-integration.js"></script> -->
+        <!-- <script type="module" src="/js/main.js"></script> -->
+        <!-- <script>
+            document.getElementById('connectWalletButton').addEventListener('click', async () => {
+              if (window.ethereum) {
+                const provider = new ethers.BrowserProvider(window.ethereum)
+                signer = await provider.getSigner();
+
+                // const provider = new ethers.providers.Web3Provider(window.ethereum);
+                // await provider.send("eth_requestAccounts", []);
+                // const signer = provider.getSigner();
+                const address = await signer.getAddress();
+                
+                // Сохраняем состояние в localStorage
+                localStorage.setItem('walletAddress', address);
+                alert('Connected: ' + address);
+              } else {
+                alert('Please install MetaMask!');
+              }
+            });
+          </script> -->
+</body>
+</html>

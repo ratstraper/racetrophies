@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/header') %>
+  <div class="page">
+    <div class="pageContent">
+      <h1>Frequently Asked Questions</h1>
+
+      <% data.forEach(function(faq) { %>
+        <div class="box" onclick="toggleAnswer('<%= faq.id %>')">
+          <div class="title">
+              <h2><%= faq.id %>: <%= faq.question %></h2><h3 id="icon-<%= faq.id %>">+</h3>
+          </div>
+          <div id="answer-<%= faq.id %>" class="answer">
+              <%= faq.answer %>
+          </div>
+        </div>
+      <% }); %>
+      <div>&nbsp;</div>
+      <div class="buttonBox"><Button class="buttonBlue" onclick="history.back();">Back</Button></div>
+    </div>
+  </div>
+  <%- include('../partials/footer') %>
+  <script>
+    function toggleAnswer(id) {
+        var answerElement = document.getElementById('answer-' + id);
+        var iconElement = document.getElementById('icon-' + id);
+        if (answerElement.style.display === 'none' || answerElement.style.display === '') {
+            answerElement.style.display = 'block';
+            iconElement.textContent = "^"
+        } else {
+            answerElement.style.display = 'none';
+            iconElement.textContent = "+"
+        }
+    }
+    async function reload() {}
+  </script>
+</body>
+</html>
