@@ -6,9 +6,6 @@
     <script type="text/javascript" src="/js/jquery.spincrement.js"></script>    
 </head>
 <body>
-    <!-- <%- include('../partials/header') %> -->
-    <!-- <w3m-core-button></w3m-core-button> -->
-    <!-- <script src="/js/main.js" type="module"></script> -->
     <div class="page">
         <section class="topContainer">
             <div class="mainBox">
@@ -118,28 +115,5 @@
             });
             async function reload() {}
         </script>
-        <!-- <script type="text/javascript" src="/main.js"></script> -->
-        <!-- <script type="module" src="/js/web3.js"></script> -->
-        <!-- <script src="/js/ethers-integration.js"></script> -->
-        <!-- <script type="module" src="/js/main.js"></script> -->
-        <!-- <script>
-            document.getElementById('connectWalletButton').addEventListener('click', async () => {
-              if (window.ethereum) {
-                const provider = new ethers.BrowserProvider(window.ethereum)
-                signer = await provider.getSigner();
-
-                // const provider = new ethers.providers.Web3Provider(window.ethereum);
-                // await provider.send("eth_requestAccounts", []);
-                // const signer = provider.getSigner();
-                const address = await signer.getAddress();
-                
-                // Сохраняем состояние в localStorage
-                localStorage.setItem('walletAddress', address);
-                alert('Connected: ' + address);
-              } else {
-                alert('Please install MetaMask!');
-              }
-            });
-          </script> -->
 </body>
 </html>

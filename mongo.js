@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import { MongoClient } from 'mongodb'
 
 dotenv.config()
-const url = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@143.198.102.30:27017/?authMechanism=DEFAULT&authSource=runtothemoondb`
+const url = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@${process.env.MONGO_SERVER}/?authMechanism=DEFAULT&authSource=runtothemoondb`
 // const client = new MongoClient(url);
 const dbName = 'runtothemoondb';
 
