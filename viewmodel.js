@@ -217,6 +217,9 @@ export class ViewModel {
         }
     }
 
+    async getAllMeters() {
+        return await this.mongo.getAllMeters()
+    }
     async getActiveRaces(org) { 
         return await this.mongo.getAllRaces(org)
         /*

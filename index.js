@@ -61,18 +61,14 @@ app.get("/faq", (req, res) => {
 // Создайте API маршрут для получения данных
 app.get('/api/getAllMeters', async (req, res) => {
   try {
-    const response = await axios.get('https://racetrophies.online:3001/db/getAllMeters');
-    const data = response.data;
+    const data = await model.getAllMeters()
     res.json(data);
   } catch (error) {
     console.error(error);
-    const data = {
-      run_meters: 0.00,
-      total_meters: "381,400.00"
-    }
-    res.json(data) //.status(500).send('Произошла ошибка при получении данных');
-    sendMessage(`GET /api/getRace ${error}`)
-  }
+    const data = {}
+    res.json(data)
+    sendMessage(`GET /api/getAllMeters ${error}`)
+  }  
 });
 
 app.get('/api/getToken', async (req, res) => {

@@ -126,6 +126,40 @@ export class MongoDB {
     }
   }
 
+  /**
+   * Получить рассотяние которое уже пробежали
+   */
+  async getAllMeters() {
+    try {
+      const db = this.client.db(dbName)
+      const collection = db.collection("moonway");
+      const results = await collection.aggregate([{$group: {_id:null, sum: {$sum:"$meters"}}}]).toArray();
+      var distance = 0;
+      if(results[0] != undefined) {
+        distance = this.addCommas((results[0].sum/1000).toFixed(2));
+      }
+      return {
+        run_meters: distance,
+        total_meters: "384,400.00"
+      }
+    } catch (err) {
+      console.error('Error fetching moonway aggregate:', err);
+      throw err;
+    }
+  }
+
+
+  addCommas(nStr) {
+    nStr += '';
+    var x = nStr.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+  }
   // async closeMongoConnection() {
   //     if (this.mongoClient) {
   //         await this.mongoClient.close();
