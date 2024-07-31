@@ -11,9 +11,10 @@
     <div id="info"></div>
     <script type="module">
         var log;
-        import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/@web3modal/wagmi@5.0.10?bundle"
-        import { mainnet, polygon } from "https://esm.sh/@wagmi/core@2.12.2/chains?exports=mainnet,polygon";
-        import { reconnect, getAccount, getEnsName, switchChain } from "https://esm.sh/@wagmi/core@2.12.2?exports=reconnect,getAccount,getEnsName,switchChain";
+        import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/v135/@web3modal/wagmi@5.0.10/es2022/wagmi.bundle.mjs"
+        import { mainnet, polygon } from "https://esm.sh/@wagmi/core@2.12.2/chains?exports=mainnet,polygon"
+        import { reconnect, getAccount, getEnsName, switchChain } from "https://esm.sh/@wagmi/core@2.12.2?exports=reconnect,getAccount,getEnsName,switchChain"
+
 
         //https://wagmi.sh/core/api/actions
         //const ensName = await getEnsName(config, { address })
