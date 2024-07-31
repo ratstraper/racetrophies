@@ -22,8 +22,12 @@ app.use(express.static("public"));
 let model = new ViewModel();
 
 app.get("/", (req, res) => {
-  res.render("index", { title: "Race Trophies !" });
+  res.render("index", { title: "Race Trophies !" })
   // sendMessage(`GET /`)
+ });
+
+ app.get("/w7", (req, res) => {
+  res.render("wallet4")
  });
 
 app.get("/races", (req, res) => {

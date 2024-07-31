@@ -4,3 +4,13 @@ pnpm-lock.yaml
 package-lock.json
 
 artefacts.md
+
+public/scripts.js
+wallet.ejs
+wallet0.ejs
+wallet1.ejs
+wallet2.ejs
+wallet3.ejs
+wallet5.ejs
+wallet6.ejs
+wallet7.ejs
