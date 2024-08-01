@@ -6,12 +6,10 @@
 </head>
 <body>
     <w3m-button></w3m-button>
-    <!-- <script src="main.js" type="module"></script> -->
-    <div id="address"></div>
-    <div id="info"></div>
     <script type="module">
-        var log;
-        import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/v135/@web3modal/wagmi@5.0.10/es2022/wagmi.bundle.mjs"
+        import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/@web3modal/wagmi@5.0.10/?bundle"
+        //or
+        //import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/v135/@web3modal/wagmi@5.0.10/es2022/wagmi.bundle.mjs"
         import { mainnet, polygon } from "https://esm.sh/@wagmi/core@2.12.2/chains?exports=mainnet,polygon"
         import { reconnect, getAccount, getEnsName, switchChain } from "https://esm.sh/@wagmi/core@2.12.2?exports=reconnect,getAccount,getEnsName,switchChain"
 
@@ -72,29 +70,29 @@
             console.log("events", newState.data.event);
         });
 
-        async function onConnect() {
-            modal.open();
-        }
+        // async function onConnect() {
+        //     modal.open();
+        // }
 
-        async function getWalletAddress() {
-            const account = getAccount()    
-            console.log(account)
-            if (account.isConnected){
-                return account.address
-            }else {
-                onConnect();
-            }
-        }
+        // async function getWalletAddress() {
+        //     const account = getAccount()    
+        //     console.log(account)
+        //     if (account.isConnected){
+        //         return account.address
+        //     }else {
+        //         onConnect();
+        //     }
+        // }
 
-        async function getWalletBalance() {
-            const address = await getWalletAddress()
-            const balance = await fetchBalance({
-                address:address,
-            })
-            console.log(balance)
-            return balance
-        }
-        // onConnect()
+        // async function getWalletBalance() {
+        //     const address = await getWalletAddress()
+        //     const balance = await fetchBalance({
+        //         address:address,
+        //     })
+        //     console.log(balance)
+        //     return balance
+        // }
+        // // onConnect()
         
       </script>
 </body>
