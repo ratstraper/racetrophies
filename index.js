@@ -156,11 +156,29 @@ app.get('/api/getDemoData', async (req, res) => {
 //   key: fs.readFileSync("localhost.key"),
 //   cert: fs.readFileSync("localhost.crt"),
 // };
-
-app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`);
-});
-
+if(process.env.SERVER === 'PROD') {
+  var privateKey, certificate, chainCA
+  if(process.env.SSL === 'SERVER') {
+    privateKey = fs.readFileSync( '/etc/letsencrypt/live/racetrophies.online/privkey.pem' );
+    certificate = fs.readFileSync( '/etc/letsencrypt/live/racetrophies.online/cert.pem' );
+    chainCA = fs.readFileSync('/etc/letsencrypt/live/racetrophies.online/chain.pem');
+  } else if(process.env.SSL === 'LOCAL') {
+    privateKey = fs.readFileSync( './privkey.pem' );
+    certificate = fs.readFileSync( './cert.pem' );
+  }
+  https.createServer({
+    key: privateKey,
+    cert: certificate,
+    ca: chainCA
+  }, app).listen(app.get("port"), () => {
+    logger.log('info', `Find the server at: https://localhost:${app.get("port")}/`); // eslint-disable-line no-con>
+    console.log(`Find the server at: https://localhost:${app.get("port")}/`); 
+  });
+} else {
+  app.listen(port, () => {
+    console.log(`App listening at http://localhost:${port}`);
+  });
+}
 
 const formatMemoryUsage = (data) => `${Math.round(data / 1024 / 1024 * 100) / 100} MB`;
 const memoryData = process.memoryUsage();
@@ -183,8 +201,8 @@ function sendMessage(msg) {
         chat_id: process.env.USER_TELEGRAM_ID,
         text: telegram_message
     })
-})
-.catch(error => {
-    console.error('Error sending message:', error);
-});
+  })
+  .catch(error => {
+      console.error('Error sending message:', error);
+  });
 }

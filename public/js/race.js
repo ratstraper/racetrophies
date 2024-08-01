@@ -49,7 +49,7 @@ function preparePrice(price) {
     if(price === undefined) {
         document.getElementById('race_price_row').style.display = 'none'
     } else {
-        document.getElementById('race_price').innerHTML = `${data.race.price} MATIC <img src="/images/help.svg" onClick="Swal.fire({icon:'question',title:'What is MATIC',html:'MATIC is the cryptocurrency used on the Polygon blockchain. It is like the money you use to pay for things on the Polygon network.<p>${price} MATIC is about equal to $30</p>'})" alt="help" />`
+        document.getElementById('race_price').innerHTML = `${data.race.price} MATIC <img src="/design/help.svg" onClick="Swal.fire({icon:'question',title:'What is MATIC',html:'MATIC is the cryptocurrency used on the Polygon blockchain. It is like the money you use to pay for things on the Polygon network.<p>${price} MATIC is about equal to $30</p>'})" alt="help" />`
         document.getElementById('race_price_row').style.display = 'inline'
     }
 }
