@@ -6,6 +6,7 @@ import { ViewModel } from "./viewmodel.js"
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import https from 'https'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -170,9 +171,9 @@ if(process.env.SERVER === 'PROD') {
     key: privateKey,
     cert: certificate,
     ca: chainCA
-  }, app).listen(app.get("port"), () => {
-    logger.log('info', `Find the server at: https://localhost:${app.get("port")}/`); // eslint-disable-line no-con>
-    console.log(`Find the server at: https://localhost:${app.get("port")}/`); 
+  }, app).listen(port, () => {
+    // logger.log('info', `Find the server at: https://localhost:${app.get("port")}/`); // eslint-disable-line no-con>
+    console.log(`Find the server at: https://localhost:${port}/`); 
   });
 } else {
   app.listen(port, () => {
