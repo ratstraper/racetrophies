@@ -1,0 +1,49 @@
+<html>
+<head>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.8/dist/esm/index.min.js"></script> -->
+</head>
+<body>
+  <div id="info"></div>
+  <ConnectButton />
+  <button id="connectWallet">Connect Wallet</button>
+  <script type="module">
+    const WALLET_PROJECT_ID="64fdce6d87f6cfcc448d686b57d8d096" 
+    const INFURA_ETH_API_ID="7b300c9eeb20430b93296036bbe2dfba"
+    const projectId = "ed660915e4bae88bd2f75fa205e44bcd"
+    
+    import {
+      getDefaultConfig,
+      RainbowKitProvider,
+      ConnectButton
+    } from 'https://esm.sh/@rainbow-me/rainbowkit@2.1.3'
+    // import { WagmiProvider } from "https://esm.sh/@wagmi/core@2.12.2"
+    import { mainnet, polygon } from "https://esm.sh/@wagmi/core@2.12.2/chains?exports=mainnet,polygon"
+    import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/@web3modal/wagmi@5.0.10/?bundle"
+    // import {
+    //   QueryClientProvider,
+    //   QueryClient,
+    // } from "@tanstack/react-query";
+
+    const config = getDefaultConfig({
+      appName: 'RT_Auth',
+      projectId: projectId,
+      chains: [mainnet, polygon],
+      ssr: true, // If your dApp uses server side rendering (SSR)
+    });
+
+    const modal = createWeb3Modal({
+            wagmiConfig: config,
+            projectId,
+            chains: [mainnet, polygon],             // +
+            defaultChain: polygon       // +
+        });
+
+    async function connectWallet() {
+      console.log("click by connectWallet")
+      modal.open()
+    }
+
+    document.getElementById('connectWallet').addEventListener('click', connectWallet);
+  </script>
+</body>
+</html>

@@ -47,7 +47,7 @@
               console.log(data)
               if(data.animation_url != undefined) {
                 var video = document.createElement('video')
-                video.src = data.animation_url.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/')
+                video.src = data.animation_url.replace('ipfs://', 'https://nftstorage.link/ipfs/')
                 video.controls = true
                 video.autoplay = true;
                 video.loop = true;
@@ -55,7 +55,7 @@
                 document.getElementById('imgToken').appendChild(video);
               } else if(data.image != undefined) {
                 var image = document.createElement('img');
-                image.src = data.image.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/')
+                image.src = data.image.replace('ipfs://', 'https://nftstorage.link/ipfs/')
                 document.getElementById('imgToken').appendChild(image);
               }
               var twi = document.createElement('a');

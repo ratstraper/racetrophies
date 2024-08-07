@@ -196,20 +196,22 @@ export class BlockchainViem {
       })
       let owner = token[0].result //await contract.methods.ownerOf(tokenId).call()
       let uri = token[1].result //await contract.methods.tokenURI(tokenId).call()
-      let url = this.ipfs_url_from_hash(uri.slice(7));
-      let res = await axios.get(url)
-        .then(data => {
-          // logger.log(data)            
-          return data
-        });
+      let url = this.ipfs_url_from_hash(uri.slice(7))
+      let data = await axios.get(url, {timeout: 20000})
+        .then(response => {
+          if(response.status === 200) {        
+            return response.data
+          } else {
+            console.log(`error status: ${response.status} - ${response.statusText}`)
+          }
+        })
       // let desc = await res.data.properties.image.description;
       // let ret = (await "https://ipfs.io/ipfs/") + desc;
-      res.data.owner = owner
-      // res.json(res.data)
-      result = res.data
+      data.owner = owner
+      result = data
     } catch (err) {
       // logger.error('error', err)
-      console.error(err)
+      console.error("catch getToken", err)
         delete err.stack
         delete err.xsrfCookieName
         delete err.xsrfHeaderName
@@ -220,8 +222,14 @@ export class BlockchainViem {
     return result
   }
 
-  ipfs_url_from_hash(h) {
-    return "https://ipfs.io/ipfs/" + h;
+
+  ipfs_url_from_hash(cid) {
+    //https://bafkreibnzw5ndtf7z4h4d7bnk7jsc7k56lzel6wyxcpo42dyg5dl4jbdum.ipfs.nftstorage.link/
+    //https://nftstorage.link/ipfs/bafkreibnzw5ndtf7z4h4d7bnk7jsc7k56lzel6wyxcpo42dyg5dl4jbdum
+    //https://gateway.pinata.cloud/ipfs/
+    //https://dweb.link/ipfs/bafkreibnzw5ndtf7z4h4d7bnk7jsc7k56lzel6wyxcpo42dyg5dl4jbdum - slow    
+    return `https://${cid}.ipfs.nftstorage.link/`
+    // return "https://ipfs.io/ipfs/" + cid;
   }
 }
 // const [name, totalSupply, symbol, balance] = await Promise.all([

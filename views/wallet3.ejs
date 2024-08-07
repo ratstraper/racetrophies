@@ -7,18 +7,14 @@
 <body>
     <w3m-button></w3m-button>
     <script type="module">
-        import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/@web3modal/wagmi@5.0.10/?bundle"
+        import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/@web3modal/wagmi@5.0.11/?bundle"
         //or
         //import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/v135/@web3modal/wagmi@5.0.10/es2022/wagmi.bundle.mjs"
         import { mainnet, polygon } from "https://esm.sh/@wagmi/core@2.13.3/chains?exports=mainnet,polygon"
-        import { reconnect, disconnect, getAccount, getEnsName, switchChain } from "https://esm.sh/@wagmi/core@2.13.3?exports=reconnect,disconnect,getAccount,getEnsName,switchChain"
+        import { reconnect, getAccount, getEnsName, switchChain } from "https://esm.sh/@wagmi/core@2.13.3?exports=reconnect,getAccount,getEnsName,switchChai>
 
-        import { createConfig, http, cookieStorage, createStorage} from "https://esm.sh/@wagmi/core@2.13.3?exports=createConfig,http,cookieStorage,createStorage"
-        import { injected, metaMask, safe, walletConnect } from 'https://esm.sh/@wagmi/connectors@5.1.2'
 
-        //https://esm.sh/#docs
-        //https://wagmi.sh/core/api/actions 
-        //switchChain
+        //https://wagmi.sh/core/api/actions
         //const ensName = await getEnsName(config, { address })
         //await switchChain(config, { chainId: polygon.id })
         const projectId = "ed660915e4bae88bd2f75fa205e44bcd"; // wallet connect project ID here
@@ -37,27 +33,7 @@
             chains,
             projectId,
             metadata,
-            // ssr: true,
-            // storage: createStorage({
-            //     storage: cookieStorage
-            // }),
-            // connectors: [connectorConnect],
-            // ...wagmiOptions // Optional - Override createConfig parameters
         });
-        // const config = createConfig({
-        //     chains: [mainnet, polygon],
-        //     ssr: true,
-        //     connectors: [
-        //         // injected(),
-        //         walletConnect({ projectId }),
-        //         // metaMask(),
-        //         // safe(),
-        //     ],
-        //     // transports: {
-        //     //     [mainnet.id]: http(),
-        //     //     [polygon.id]: http(),
-        //     // },
-        // })
 
         reconnect(config);
 
@@ -65,11 +41,8 @@
         const modal = createWeb3Modal({
             wagmiConfig: config,
             projectId,
-            // chains: chains,             // +
-            // defaultChain: polygon       // +
         });
 
-        // disconnect(config)
         /**
          * MODAL_LOADED
          * MODAL_OPEN
@@ -81,17 +54,17 @@
          * MODAL_CLOSE
          * CONNECT_ERROR
          */
-        modal.subscribeEvents((newState) => {
+         modal.subscribeEvents((newState) => {
             const name  = newState.data.event;
             if(name === "MODAL_CLOSE") {
                 const account = getAccount(config)
                 console.log(account)
             } else if(name === "CONNECT_SUCCESS") {
                 const account = getAccount(config)
-                console.log(account)                
+                console.log(account)
             } else if(name === "MODAL_LOADED") {
                 const account = getAccount(config)
-                console.log(account)                   
+                console.log(account)
             }
             console.log("events", newState.data.event);
         });
@@ -101,7 +74,7 @@
         // }
 
         // async function getWalletAddress() {
-        //     const account = getAccount()    
+        //     const account = getAccount()
         //     console.log(account)
         //     if (account.isConnected){
         //         return account.address
@@ -119,7 +92,8 @@
         //     return balance
         // }
         // // onConnect()
-        
+
       </script>
 </body>
 </html>
+

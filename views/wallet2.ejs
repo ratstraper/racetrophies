@@ -1,0 +1,77 @@
+<html>
+<head>
+<!-- Так себе ариант. не работает в мобиле -->
+    <script src="https://unpkg.com/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/@walletconnect/web3-provider"></script>
+</head>
+<body>
+    <div id="address"></div>
+    <div id="info"></div>
+    <script type="module"> 
+        import {WalletConnectModal} from "https://unpkg.com/@walletconnect/web3-provider"
+        const modal = new WalletConnectModal ({ projectId: '89ff2f66cafc43d6b57b6ac685fbc965', chains: ['eip155:1'], }); 
+    </script>
+
+    <!-- <script type="module">
+        import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.2/ethers.min.js";
+
+        async function connectWallet() {
+            if (window.ethereum == null) {
+                document.getElementById('info').innerHTML = 'window.ethereum == null'
+                try {
+                    // If MetaMask is not installed, we use the default provider,
+                    // which is backed by a variety of third-party services (such
+                    // as INFURA). They do not have private keys installed,
+                    // so they only have read-only access
+                    console.log("MetaMask not installed; using read-only defaults")
+                    const provider = ethers.getDefaultProvider()
+                    // const signer = await provider.getSigner();
+                    // const address = await signer.getAddress();
+                    document.getElementById('address').textContent = JSON.stringify(provider)
+                } catch(error) {
+                    document.getElementById('address').textContent = error
+                }
+            } else {
+                document.getElementById('info').innerHTML = 'window.ethereum !== null'
+                try {
+                    // Connect to the MetaMask EIP-1193 object. This is a standard
+                    // protocol that allows Ethers access to make all read-only
+                    // requests through MetaMask.
+                    const provider = new ethers.BrowserProvider(window.ethereum)
+
+                    // It also provides an opportunity to request access to write
+                    // operations, which will be performed by the private key
+                    // that MetaMask manages for the user.
+                    const signer = await provider.getSigner();
+                    const address = await signer.getAddress();
+                    document.getElementById('address').textContent = address
+                } catch(error) {
+                    document.getElementById('address').textContent = error
+                }
+            }
+        }
+        // async function connectWallet() {
+        //     // if (typeof window.ethereum !== 'undefined') {
+        //     if (typeof window.ethereum !== 'undefined' || typeof window.web3 !== 'undefined') {
+        //         const provider = new ethers.BrowserProvider(window.ethereum || window.web3.currentProvider);
+        //         try {
+        //             await window.ethereum.request({ method: 'eth_requestAccounts' });
+        //             const provider = new ethers.BrowserProvider(window.ethereum);
+        //             const signer = await provider.getSigner();
+        //             const address = await signer.getAddress();
+        //             console.log('Connected:', address);
+        //             document.getElementById('address').textContent = address
+        //         } catch (error) {
+        //             console.error('Error connecting:', error);
+        //             document.getElementById('address').textContent = error
+        //         }
+        //     } else {
+        //         window.location.href = 'https://metamask.app.link/dapp/your-dapp-url.com';
+        //         // console.log('MetaMask is not installed.');
+        //         // document.getElementById('address').textContent = 'MetaMask is not installed.'
+        //     }
+        // }
+        connectWallet();
+      </script> -->
+</body>
+</html>

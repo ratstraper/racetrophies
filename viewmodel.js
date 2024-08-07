@@ -15,6 +15,7 @@ export class ViewModel {
             this.mongo.raceFromDB(race_id),
             this.blockchain.getRace(race_id)
         ])
+        console.log(race_db)
         race_blockchain.distance    = race_db.distance
         race_blockchain.title       = race_db.title
         race_blockchain.description = race_db.description
@@ -414,6 +415,9 @@ export class ViewModel {
         return races
     }
 
+    async getToken(id) {
+        return await this.blockchain.getToken(id)
+    }
 
     /**
      * h:mm:ss.sss 5010999 => 50:10.999

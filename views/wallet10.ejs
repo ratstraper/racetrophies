@@ -1,0 +1,44 @@
+<html>
+<head>
+</head>
+<body>
+  <div id="info"></div>
+  <button id="connectButton">Connect Wallet</button>
+  <script type="module">
+    const WALLET_PROJECT_ID="64fdce6d87f6cfcc448d686b57d8d096" 
+    const INFURA_ETH_API_ID="7b300c9eeb20430b93296036bbe2dfba"
+    import { createConfig, http } from 'https://esm.sh/@wagmi/core@2.12.2'
+    import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/@web3modal/wagmi@5.0.10/?bundle"
+    import { polygon, mainnet } from 'https://esm.sh/@wagmi/core@2.12.2/chains?exports=mainnet,polygon';
+    // import { publicProvider } from 'https://esm.sh/@wagmi/core@2.12.2'
+
+    // import { CoinbaseWallet } from 'https://esm.sh/@wagmi/connectors@5.1.2'
+    // import { InjectedConnector } from 'https://esm.sh/@wagmi/connectors@5.1.2'
+    // import { MetaMaskConnector } from 'https://esm.sh/@wagmi/connectors@5.1.2'
+    // import { WalletConnectConnector } from 'https://esm.sh/@wagmi/connectors@5.1.2'
+    import { injected, metaMask, safe, walletConnect } from 'https://esm.sh/@wagmi/connectors@5.1.2'
+//coinbaseWallet
+    // 1. Настройка доступных сетей и провайдеров
+    export const config = createConfig({
+      chains: [polygon],
+      ssr: true,
+      connectors: [
+        injected(),
+        walletConnect({ WALLET_PROJECT_ID }),
+        metaMask()
+      ],
+      transports: { 
+        // [mainnet.id]: http('https://rpc.payload.de'), 
+        [polygon.id]: http('https://polygon.drpc.org'), 
+      }, 
+    })
+
+
+    async function connectWallet() {
+
+    }
+
+    document.getElementById('connectButton').addEventListener('click', connectWallet);
+  </script>
+</body>
+</html>

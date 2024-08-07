@@ -1,7 +1,5 @@
 import express from "express"
-import axios from 'axios'
 import bodyParser from "body-parser"
-// const { Blockchain, Block } = require("./blockchain");
 import { ViewModel } from "./viewmodel.js"
 import fs from 'fs'
 import path from 'path'
@@ -24,12 +22,14 @@ let model = new ViewModel();
 
 app.get("/", (req, res) => {
   res.render("index", { title: "Race Trophies !" })
-  // sendMessage(`GET /`)
  });
 
- app.get("/w7", (req, res) => {
-  res.render("wallet4")
- });
+ app.get("/w", (req, res) => { res.render("wallet") });
+ app.get("/w2", (req, res) => { res.render("wallet2") });
+ app.get("/w3", (req, res) => { res.render("wallet3") });
+ app.get("/w4", (req, res) => { res.render("wallet4") });
+ app.get("/w9", (req, res) => { res.render("wallet9") });
+ app.get("/w10", (req, res) => { res.render("wallet10") });
 
 app.get("/races", (req, res) => {
   res.render("races");
@@ -73,10 +73,8 @@ app.get('/api/getAllMeters', async (req, res) => {
 });
 
 app.get('/api/getToken', async (req, res) => {
-  // console.log(req);
   try {
-    const response = await axios.get(`https://racetrophies.online:3001/api/getToken?token=${req.query.id}`);
-    const data = response.data;
+    const data = await model.getToken(req.query.id)
     res.json(data);
   } catch (error) {
     console.error(error);
@@ -96,7 +94,7 @@ app.get('/api/getActiveRaces', async (req, res) => {
   } catch (error) {
     console.error(error);
     const data = {}
-    res.json(data) //.status(500).send('Произошла ошибка при получении данных');
+    res.json(data)
     sendMessage(`GET /api/getRace ${error}`)
   }  
   // sendMessage(`GET /getActiveRaces ${req.query.org}, ${req.query.wallet}`)
@@ -117,10 +115,6 @@ app.get('/api/getRace', async (req, res) => {
     sendMessage(`GET /api/getRace ${error}`)
   }  
   // sendMessage(`GET /api/getRace ${req.query.race}, ${req.query.wallet}`)
-});
-
-app.get('/api/getDemoData', async (req, res) => {
-
 });
 
 // app.get('/api/mongo/getRace', async (req, res) => {
@@ -153,10 +147,6 @@ app.get('/api/getDemoData', async (req, res) => {
 /**
  * Server listen
  */
-// const options = {
-//   key: fs.readFileSync("localhost.key"),
-//   cert: fs.readFileSync("localhost.crt"),
-// };
 if(process.env.SERVER === 'PROD') {
   var privateKey, certificate, chainCA
   if(process.env.SSL === 'SERVER') {

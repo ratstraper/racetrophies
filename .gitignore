@@ -9,3 +9,8 @@ artefacts.md
 public/scripts.js
 wallet*.ejs
 !wallet4.ejs
+!wallet3.ejs
+!wallet2.ejs
+!wallet.ejs
+!wallet9.ejs
+!wallet10.ejs
