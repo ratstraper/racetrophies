@@ -1,0 +1,33 @@
+<html>
+<head>
+    <!--  only wagmi -->
+</head>
+<body>
+    <div><connectButton></connectButton></div>
+    <div><w3m-button></w3m-button></div>
+    <div><p>only wagmi</p></div>
+    <script type="module">        
+        import { polygon } from "https://esm.sh/@wagmi/chains@1.8.0";
+        import { reconnect, disconnect, getAccount, getEnsName, switchChain } from "https://esm.sh/@wagmi/core@2.13.4?exports=reconnect,disconnect,getAccount,getEnsName,switchChain"
+        import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/@web3modal/wagmi@5.0.11/?bundle"
+        
+
+        export const config = defaultWagmiConfig({
+            appName: 'RT_Auth',
+            projectId: '64fdce6d87f6cfcc448d686b57d8d096',
+            chains: [polygon],
+            // ssr: true,
+        });
+
+        reconnect(config);
+
+        const modal = createWeb3Modal({
+            wagmiConfig: config,
+            projectId: '64fdce6d87f6cfcc448d686b57d8d096',
+            // chains: chains,             // +
+            // defaultChain: polygon       // +
+        });
+
+      </script>
+</body>
+</html>

@@ -3,35 +3,34 @@
     <!--  Rainbow пока нет -->
 </head>
 <body>
-    <ConnectButton></ConnectButton>
-    <w3m-button></w3m-button>
+    <div><w3m-button></w3m-button></div>
     <!-- <button type="button" data-testid="rk-connect-button">Connect Wallet</button> -->
     <div id="address"></div>
     <div id="btn"></div>
-    <div id="info"></div>
+    <div id="info">Rainbow + wagmi</div>
     <script type="module">
         // const connect_button = document.createElement("ConnectButton");
         // document.getElementById("btn").outerHTML = connect_button.outerHTML;
-        import { RainbowKitProvider, ConnectButton, getDefaultConfig } from "https://esm.sh/@rainbow-me/rainbowkit@2.1.4";
-        import { coinbaseWallet } from "https://esm.sh/@rainbow-me/rainbowkit@2.1.4/wallets";
-        import { arbitrum, base, mainnet, optimism, polygon } from "https://esm.sh/@wagmi/chains@1.8.0";
+        import { getDefaultConfig } from "https://esm.sh/@rainbow-me/rainbowkit@2.1.4";
+        import { coinbaseWallet, trustWallet, braveWallet } from "https://esm.sh/@rainbow-me/rainbowkit@2.1.4/wallets";
+        import { polygon } from "https://esm.sh/@wagmi/chains@1.8.0";
         import { reconnect, disconnect, getAccount, getEnsName, switchChain } from "https://esm.sh/@wagmi/core@2.13.4?exports=reconnect,disconnect,getAccount,getEnsName,switchChain"
-        import { createWeb3Modal, defaultWagmiConfig } from "https://esm.sh/@web3modal/wagmi@5.0.11/?bundle"
+        import { createWeb3Modal } from "https://esm.sh/@web3modal/wagmi@5.0.11/?bundle"
         
-          
+
         // Enable Coinbase Smart Wallet for testing
         coinbaseWallet.preference = "smartWalletOnly";
 
         export const config = getDefaultConfig({
-            appName: 'R2M Example',
+            appName: 'RT_Auth',
             projectId: '64fdce6d87f6cfcc448d686b57d8d096',
-            chains: [mainnet, polygon, optimism, arbitrum, base],
-            wallets: [
-                {
-                groupName: "Popular",
-                wallets: [coinbaseWallet],
-                },
-            ],
+            chains: [polygon],
+            // wallets: [
+            //     {
+            //     groupName: "Recommended",
+            //     wallets: [coinbaseWallet, trustWallet, metaMaskWallet, rainbowWallet],
+            //     },
+            // ],
             // ssr: true,
         });
 
@@ -44,12 +43,6 @@
             // defaultChain: polygon       // +
         });
 
-        function connect() {
-            console.log("connect")
-            modal.open();
-        }
-
-        connect()
       </script>
 </body>
 </html>

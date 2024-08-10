@@ -33,6 +33,7 @@ app.get("/", (req, res) => {
  app.get("/w5", (req, res) => { res.render("wallet5") });
  app.get("/w9", (req, res) => { res.render("wallet9") });
  app.get("/w10", (req, res) => { res.render("wallet10") });
+ app.get("/w11", (req, res) => { res.render("wallet10") });
 
 app.get("/races", (req, res) => {
   res.render("races");
