@@ -21,6 +21,8 @@ app.use(express.static("public"));
 let model = new ViewModel();
 
 app.get("/", (req, res) => {
+  // console.log(req.socket._httpMessage.req.rawHeaders)
+  // console.log(req.headers['user-agent'])
   res.render("index", { title: "Race Trophies !" })
  });
 
@@ -28,6 +30,7 @@ app.get("/", (req, res) => {
  app.get("/w2", (req, res) => { res.render("wallet2") });
  app.get("/w3", (req, res) => { res.render("wallet3") });
  app.get("/w4", (req, res) => { res.render("wallet4") });
+ app.get("/w5", (req, res) => { res.render("wallet5") });
  app.get("/w9", (req, res) => { res.render("wallet9") });
  app.get("/w10", (req, res) => { res.render("wallet10") });
 
