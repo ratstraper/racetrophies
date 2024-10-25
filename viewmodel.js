@@ -1,5 +1,6 @@
 import { MongoDB } from './mongo.js'
 import { BlockchainViem } from './blockchainviem.js'
+var maticPrice = 0
 
 export class ViewModel {
     constructor() {
@@ -15,7 +16,6 @@ export class ViewModel {
             this.mongo.raceFromDB(race_id),
             this.blockchain.getRace(race_id)
         ])
-        console.log(race_db)
         race_blockchain.distance    = race_db.distance
         race_blockchain.title       = race_db.title
         race_blockchain.description = race_db.description
@@ -469,7 +469,14 @@ export class ViewModel {
             return date_start.toLocaleDateString('eu-ES') + " " + date_start.toLocaleTimeString('en-ES')
         } 
         return null
-    }    
+    }  
+    
+    async getMaticPrice(now) {
+        if(now == true || maticPrice === 0) {
+            maticPrice = await this.blockchain.getMaticPrice()
+        }
+        return maticPrice
+    } 
 }
 
 // module.exports.ViewModel = ViewModel

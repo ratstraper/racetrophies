@@ -4,7 +4,7 @@ import { ViewModel } from "./viewmodel.js"
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import https from 'https'
+// import https from 'https'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -13,10 +13,26 @@ const port = 3000
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.static(__dirname + "/public"));
+// app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
+// app.use(express.static("public"));
+
+// Функция для настройки статических маршрутов
+function serveStatic(route, folder, options) {
+  app.use(route, express.static(path.join(__dirname, folder), options));
+}
+
+// Настройка маршрутов с помощью функции
+// maxAge - Устанавливает кеширование на один год
+// immutable - Указывает, что файлы не изменяются
+serveStatic('/assets', 'public/assets', { maxAge: '1y', immutable: true });
+serveStatic('/css', 'public/css', { maxAge: '1y', immutable: true });
+serveStatic('/favicon', 'public/favicon', { maxAge: '1y', immutable: true });
+serveStatic('/design', 'public/design', { maxAge: '1y', immutable: true });
+serveStatic('/images', 'public/images', { maxAge: '1y', immutable: true });
+serveStatic('/js', 'public/js', { maxAge: '1m', immutable: false });
+serveStatic('/dist', 'public/dist', { maxAge: '1m', immutable: false });
 
 let model = new ViewModel();
 
@@ -33,7 +49,8 @@ app.get("/", (req, res) => {
  app.get("/w5", (req, res) => { res.render("wallet5") });
  app.get("/w9", (req, res) => { res.render("wallet9") });
  app.get("/w10", (req, res) => { res.render("wallet10") });
- app.get("/w11", (req, res) => { res.render("wallet10") });
+ app.get("/w11", (req, res) => { res.render("wallet11") });
+ app.get("/w12", (req, res) => { res.render("wallet12") });
 
 app.get("/races", (req, res) => {
   res.render("races");
@@ -41,7 +58,8 @@ app.get("/races", (req, res) => {
 });
 
 app.get("/race/:id", (req, res) => {
-  res.render("race", {race_id: req.params.id});
+  let price = model.getMaticPrice()
+  res.render("race", {race_id: req.params.id, matic: price});
   // sendMessage(`GET /race ${req.params.id}`)
 });
 
@@ -106,7 +124,7 @@ app.get('/api/getActiveRaces', async (req, res) => {
 
 app.get('/api/getRace', async (req, res) => {
   try {
-    console.log('GET /api/getRace', req.query)
+    // console.log('GET /api/getRace', req.query)
     const data = await model.getRace(parseInt(req.query.race), req.query.wallet)
     // const response = await axios.get(`https://racetrophies.online:3001/api/getRace?race=${req.query.race}&wallet=${req.query.wallet}`);
     // const data = response.data;
@@ -151,29 +169,29 @@ app.get('/api/getRace', async (req, res) => {
 /**
  * Server listen
  */
-if(process.env.SERVER === 'PROD') {
-  var privateKey, certificate, chainCA
-  if(process.env.SSL === 'SERVER') {
-    privateKey = fs.readFileSync( '/etc/letsencrypt/live/racetrophies.online/privkey.pem' );
-    certificate = fs.readFileSync( '/etc/letsencrypt/live/racetrophies.online/cert.pem' );
-    chainCA = fs.readFileSync('/etc/letsencrypt/live/racetrophies.online/chain.pem');
-  } else if(process.env.SSL === 'LOCAL') {
-    privateKey = fs.readFileSync( './privkey.pem' );
-    certificate = fs.readFileSync( './cert.pem' );
-  }
-  https.createServer({
-    key: privateKey,
-    cert: certificate,
-    ca: chainCA
-  }, app).listen(port, () => {
-    // logger.log('info', `Find the server at: https://localhost:${app.get("port")}/`); // eslint-disable-line no-con>
-    console.log(`Find the server at: https://localhost:${port}/`); 
-  });
-} else {
+// if(process.env.SERVER === 'PROD') {
+//   var privateKey, certificate, chainCA
+//   if(process.env.SSL === 'SERVER') {
+//     privateKey = fs.readFileSync( '/etc/letsencrypt/live/racetrophies.online/privkey.pem' );
+//     certificate = fs.readFileSync( '/etc/letsencrypt/live/racetrophies.online/cert.pem' );
+//     chainCA = fs.readFileSync('/etc/letsencrypt/live/racetrophies.online/chain.pem');
+//   } else if(process.env.SSL === 'LOCAL') {
+//     privateKey = fs.readFileSync( './privkey.pem' );
+//     certificate = fs.readFileSync( './cert.pem' );
+//   }
+//   https.createServer({
+//     key: privateKey,
+//     cert: certificate,
+//     ca: chainCA
+//   }, app).listen(port, () => {
+//     // logger.log('info', `Find the server at: https://localhost:${app.get("port")}/`); // eslint-disable-line no-con>
+//     console.log(`Find the server at: https://localhost:${port}/`); 
+//   });
+// } else {
   app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
   });
-}
+// }
 
 const formatMemoryUsage = (data) => `${Math.round(data / 1024 / 1024 * 100) / 100} MB`;
 const memoryData = process.memoryUsage();

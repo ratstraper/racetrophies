@@ -1,3 +1,8 @@
+// Start Number const
+const SN_UPLOAD = 0
+const SN_TIMEOUT = 1
+const SN_HIDE = 0
+
 function prepareAthlete(show, athlete) {
     if(show === 0) {  //set input
         document.getElementById('athlete_name_text').style.display = 'none'
@@ -49,26 +54,29 @@ function preparePrice(price) {
     if(price === undefined) {
         document.getElementById('race_price_row').style.display = 'none'
     } else {
-        document.getElementById('race_price').innerHTML = `${data.race.price} MATIC <img src="/design/help.svg" onClick="Swal.fire({icon:'question',title:'What is MATIC',html:'MATIC is the cryptocurrency used on the Polygon blockchain. It is like the money you use to pay for things on the Polygon network.<p>${price} MATIC is about equal to $30</p>'})" alt="help" />`
+        document.getElementById('race_price').innerHTML = `${data.race.price} POL <img src="/design/help.svg" onClick="Swal.fire({icon:'question',title:'What is POL',html:'POL is the cryptocurrency used on the Polygon blockchain. It is like the money you use to pay for things on the Polygon network.<p>${price} POL is about equal to ${amount}</p>'})" alt="help" />`
         document.getElementById('race_price_row').style.display = 'inline'
     }
 }
 
 function prepareStartNumber(show, data) {
     var number_display = 'none'
-    if(data.athlete.bib !== undefined && data.race.id !== undefined) {
+    if(data !== undefined 
+        && data.athlete !== undefined 
+        && data.athlete.bib !== undefined 
+        && data.race.id !== undefined) {
         document.getElementById('start_number_text').innerHTML = data.athlete.bib
         var host = '<%= process.env.HOST_URL %>'
         document.getElementById('start_number_link').href = `${host}/image/getbib?raceId=${data.race.id}&bib=${data.athlete.bib}`
         number_display = 'inline'
     }
-    if(show === 0) { 
+    if(show === SN_UPLOAD) { 
         document.getElementById('start_number_row').style.display = number_display
         document.getElementById('tracks_row').style.display = number_display
         document.getElementById('upload_row').style.display = 'flex'
         document.getElementById('upload_box').style.background = '#E5E5E5'
         document.getElementById('upload_box').innerHTML = '<h1>Upload on track</h1><p>drag file here</p><p style="text-decoration:underline">or select file from disk</p>'
-    } else if(show === 1) {
+    } else if(show === SN_TIMEOUT) {
         document.getElementById('start_number_row').style.display = number_display
         document.getElementById('tracks_row').style.display = number_display
         document.getElementById('upload_row').style.display = 'flex'
@@ -82,12 +90,7 @@ function hideAll() {
     prepareAthlete(2)
     preparePromocode(false)
     preparePrice()
-    document.getElementById('start_number_row').style.display = 'none'
-    document.getElementById('tracks_row').style.display = 'none'
-    document.getElementById('upload_row').style.display = 'flex'
-    document.getElementById('upload_box').style.background = '#EAF4FF'
-    document.getElementById('upload_box').innerHTML = '<h1 style="color:#FF0303">Time out</h1>'
-    document.getElementById('nftDetail').style.display = 'none'
+    prepareStartNumber(SN_TIMEOUT)
 }
 
 function showNft() {
@@ -95,53 +98,54 @@ function showNft() {
 }
 
 function prepareScreen(data) {
+    console.log("prepareScreen:", data.status)
     if(data.race.active) {
         switch (data.status) {
             case 1:
                 prepareAthlete(0)
                 preparePromocode(true)
                 preparePrice(data.race.price)
-                prepareStartNumber(2)
+                prepareStartNumber(SN_HIDE)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
             case 2:
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true)
                 preparePrice(data.race.price)
-                prepareStartNumber(2)
+                prepareStartNumber(SN_HIDE)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
             case 3:
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareStartNumber(0, data)
+                prepareStartNumber(SN_UPLOAD, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
             case 4:
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareStartNumber(0, data)
+                prepareStartNumber(SN_UPLOAD, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
             case 5:
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareStartNumber(0, data)
+                prepareStartNumber(SN_UPLOAD, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
             case 6:
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareStartNumber(0, data)
+                prepareStartNumber(SN_UPLOAD, data)
                 showNft(data)
                 break;
             case 10:
                 hideAll()
-                prepareStartNumber(2)
+                prepareStartNumber(SN_HIDE)
                 break;
         }
     } else {
@@ -155,28 +159,28 @@ function prepareScreen(data) {
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareStartNumber(1, data)
+                prepareStartNumber(SN_TIMEOUT, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
             case 4:
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareStartNumber(1, data)
+                prepareStartNumber(SN_TIMEOUT, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
             case 5:
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareStartNumber(1, data)
+                prepareStartNumber(SN_TIMEOUT, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
             case 6:
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareStartNumber(1, data)
+                prepareStartNumber(SN_TIMEOUT, data)
                 showNft(data)
                 break;
         }

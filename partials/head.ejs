@@ -4,7 +4,11 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'G-0BNYF0ELCT');
+    gtag('config', 'G-0BNYF0ELCT', {
+        'anonymize_ip': true, // Анонимизация IP
+        'allow_google_signals': false, // Отключение сигналов Google
+        'cookie_flags': 'SameSite=None;Secure', // Установка флагов cookie для поддержки третьих сторон
+    });
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,11 +21,11 @@
     <link rel="preload" href="/assets/fonts/sourcesanspro/SourceSansPro-Regular.otf" as="font" type="font/otf" crossorigin>
     <link rel="preload" href="/assets/fonts/sourcesanspro/SourceSansPro-Light.otf" as="font" type="font/otf" crossorigin>
     <title>Race Trophies</title>
-    <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="/checkbox.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/checkbox.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- wallet -->
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.1/dist/ethers.umd.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.1/dist/ethers.umd.min.js"></script> -->
     <style>
         button {
             padding: 10px 20px;

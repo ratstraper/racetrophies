@@ -1,10 +1,12 @@
 node_modules
 public/images
+public/dist/
 .env
 pnpm-lock.yaml
 package-lock.json
 
 artefacts.md
+racetrophies.JTBD.md
 
 public/scripts.js
 wallet*.ejs

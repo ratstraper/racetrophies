@@ -401,13 +401,14 @@
       </div>
   </div>
   <%- include('../partials/footer') %>
-  <script src="/js/ethers-integration.js"></script>
+  <!-- <script type="module" src="/js/wagmi-integration.js"></script> -->
+  <script src="/dist/bundle.js" defer></script>
   <script>
 
     document.getElementById('bannerDownLoadWallet').style.display = (typeof window.ethereum == 'undefined') ? 'flex' : 'none'
 
-    async function loadRace() {
-      account = await getAddress() 
+    async function loadRace(account) {
+      // account = await getAddress() 
       document.getElementById('bannerConnectWallet').style.display = account == undefined ? 'flex' : 'none'
       // document.getElementById('athlete_name_row').style.display = account == undefined ? 'none' : 'flex'
       // document.getElementById('age_row').style.display = account == undefined ? 'none' : 'flex'
@@ -426,8 +427,8 @@
             document.getElementById('promoContainer').innerHTML = ''
             if(data.race.video_promo !== undefined && data.race.video_promo.length > 0) {
               var video = document.createElement('video')
-              var host = '<%= process.env.HOST_URL %>'
-              video.src = host + data.race.video_promo
+              // var host = '<%= process.env.HOST_URL %>'
+              video.src = data.race.video_promo
               video.width = 320
               video.height = 320
               video.volume = 0.05
@@ -439,8 +440,8 @@
             } else if(data.race.image_promo !== undefined && data.race.image_promo.length > 0) {
             } else if(data.race.image_race !== undefined && data.race.image_race.length > 0) {
               var image = document.createElement('img')
-              var host = '<%= process.env.HOST_URL %>'
-              image.src = host + data.race.image_race
+              // var host = '<%= process.env.HOST_URL %>'
+              image.src = data.race.image_race
               image.width = 320
               image.alt = data.race.title
               // image.height = 320
@@ -458,11 +459,11 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      loadRace()
+      // loadRace()
     })
 
     async function reload() {
-      loadRace()
+      // loadRace()
     }
   </script>
   <script type="text/javascript" src="/js/race.js"></script>

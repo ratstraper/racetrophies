@@ -43,6 +43,7 @@ export class BlockchainViem {
     this.contract = getContract({ abi: CONTRACT_ABI, address: address, client: this.client })
   }
 
+  
   isAddress(address) { return isAddress(address) }
   formatEther(wei) { return formatEther(wei) }
 
@@ -230,6 +231,24 @@ export class BlockchainViem {
     //https://dweb.link/ipfs/bafkreibnzw5ndtf7z4h4d7bnk7jsc7k56lzel6wyxcpo42dyg5dl4jbdum - slow    
     return `https://${cid}.ipfs.nftstorage.link/`
     // return "https://ipfs.io/ipfs/" + cid;
+  }
+
+  async getMaticPrice() {
+    try {
+      const response = await axios.get('https://api.coingecko.com/api/v3/simple/price', {
+        params: {
+          ids: 'matic-network',
+          vs_currencies: 'usd'
+        }
+      });
+  
+      const maticPrice = response.data['matic-network'].usd;
+      return Number(maticPrice)
+      console.log(`Current MATIC price: $${maticPrice}`);
+    } catch (error) {
+      return 0
+      console.error('Error fetching MATIC price:', error);
+    }
   }
 }
 // const [name, totalSupply, symbol, balance] = await Promise.all([
