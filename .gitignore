@@ -4,6 +4,7 @@ public/dist/
 .env
 pnpm-lock.yaml
 package-lock.json
+yarn.lock
 
 artefacts.md
 racetrophies.JTBD.md
