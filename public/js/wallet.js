@@ -15,7 +15,7 @@ const walletConnect = walletConnectModule({
    * Chains required to be supported by all wallets connecting to your DApp
    */
   // optionalChains: [1, 8453, 10, 56],
-  dappUrl: 'http://localhost:3000' //'https://racetrophies.online'
+  dappUrl: 'https://racetrophies.online'
 });
 
 const customTheme = {
@@ -51,7 +51,7 @@ const appMetadata = {
 }
 
 const onboard = Onboard({
-  theme: customTheme, //dark, light, default, 'system'
+  theme: 'light', //'dark', 'light', 'default', 'system' customTheme
   wallets: [injected, walletConnect],
   chains: [
     {
@@ -76,9 +76,6 @@ const onboard = Onboard({
 });
 
 const connectButton = document.getElementById('connectButton');
-const connectionStatus = document.getElementById('connectionStatus');
-const connectionAccount = document.getElementById('account');
-const connectionChain = document.getElementById('chain');
 
 let provider;
 let signer;
@@ -120,7 +117,6 @@ async function connectWallet() {
       provider = new ethers.BrowserProvider(walletProvider, 'any');
       signer = await provider.getSigner();
       address = await signer.getAddress();
-      console.log('Connected address:', address);
       saveWalletState(wallets);
 
       addWalletEventListeners(walletProvider);
@@ -134,7 +130,11 @@ async function connectWallet() {
 }
 
 function addWalletEventListeners(walletProvider) {
+  //accounts: ProviderAccounts
+  //export type ProviderAccounts = AccountAddress[];
+  //export type AccountAddress = Address;
   walletProvider.on('accountsChanged', async (accounts) => {
+    console.log(`event accountsChanged: ${accounts}`)
     if (accounts.length > 0) {
       address = accounts[0];
       signer = await provider.getSigner();
@@ -144,31 +144,37 @@ function addWalletEventListeners(walletProvider) {
     }
   });
 
+  // chainId: ChainId
+  // export type ChainId = string;
   walletProvider.on('chainChanged', (chainId) => {
-    console.log('Network changed to:', chainId);
+    console.log(`event chainChanged: ${chainId}`)
     if (chainId !== 0x89) {
       alert(`Please switch to Polygon Mainnet.`); //
     }
-    connectionChain.textContent = chainId;
   });
 
-  // session event - chainChanged/accountsChanged/custom events
-  // walletProvider.on('session_event', handler);
-
-  walletProvider.on('display_uri', (uri) => {
-    console.log('Display Uri:', uri)
+  // export interface ProviderMessage {
+  //   type: string;
+  //   data: unknown;
+  // }
+  walletProvider.on('message', (message) => {
+    console.log(`event message: ${message}`)
   });
 
+  // export interface ProviderInfo {
+  //   chainId: ChainId;
+  // }
   walletProvider.on('connect', (s) => {
-    console.log('connect:', s);
-    connectionStatus.textContent = "Подключено";
+    console.log(`event connect: ${s}`)
   });
 
+  //   export interface ProviderRpcError extends Error {
+  //     message: string;
+  //     code: number;
+  //     data?: unknown;
+  //   }
   walletProvider.on('disconnect', (code, reason) => {
-    console.log('Wallet disconnected:', code, reason);
-    connectionAccount.textContent = "-";
-    connectionChain.textContent = "-";
-    connectionStatus.textContent = "Не подключено";
+    console.log(`event disconnect: ${code}, ${reason}`)
     disconnectWallet();
   });
 }
@@ -176,8 +182,9 @@ function addWalletEventListeners(walletProvider) {
 function addressChanged(address) {
   console.log('Account changed:', address);
   Window.provider = provider;
-  connectButton.textContent = `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
-  connectionAccount.textContent = `${address}`;
+  address == undefined 
+    ? resetButton() 
+    : connectButton.textContent = `${address.substring(0, 6)}...${address.slice(-4)}`;
 
   const walletConnectedEvent = new CustomEvent('walletConnected', {
     detail: {
@@ -186,6 +193,8 @@ function addressChanged(address) {
     },
   });
   window.dispatchEvent(walletConnectedEvent);
+
+  // loadRace(address);
 }
 
 function disconnectWallet() {
@@ -243,3 +252,14 @@ window.switchToEthereumMainnet = async function() {
     }
   }
 };
+
+
+// async function reload() {
+//   loadRace();
+// }
+
+document.addEventListener('DOMContentLoaded', function() {
+  console.log("events", "DOMContentLoaded");
+  addressChanged(address);
+  // reload();
+})

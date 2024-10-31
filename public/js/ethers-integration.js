@@ -94,5 +94,13 @@ function initializeApp() {
     }
 }
 
+window.addEventListener('walletConnected', function(event) {
+    const { address, line } = event.detail; // Получаем данные из события
+    console.log(`Кошелёк подключен с адресом: ${address}`);
+    console.log(`Дополнительная информация: ${line}`);
+    
+    // Здесь можно добавить любые действия, которые нужно выполнить после подключения кошелька
+  });
+  
 // Используем DOMContentLoaded для инициализации после загрузки DOM
 document.addEventListener('DOMContentLoaded', initializeApp)

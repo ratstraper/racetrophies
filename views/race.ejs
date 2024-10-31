@@ -401,20 +401,31 @@
       </div>
   </div>
   <%- include('../partials/footer') %>
-  <!-- <script type="module" src="/js/wagmi-integration.js"></script> -->
   <script src="/dist/bundle.js" defer></script>
   <script>
-
+    let address
     document.getElementById('bannerDownLoadWallet').style.display = (typeof window.ethereum == 'undefined') ? 'flex' : 'none'
 
+    window.addEventListener('walletConnected', function(event) {
+      const { address, line } = event.detail;
+      console.log(`Кошелёк подключен с адресом: ${address}`);
+      console.log(`Дополнительная информация: ${line}`);
+      loadRace(address);
+    });
+
     async function loadRace(account) {
-      // account = await getAddress() 
+      let _address = (account ?? "").toUpperCase()
+      if(address === _address) {
+        return
+      }
+      address = _address
+      console.log(`loadRace: ${address}`);
       document.getElementById('bannerConnectWallet').style.display = account == undefined ? 'flex' : 'none'
       // document.getElementById('athlete_name_row').style.display = account == undefined ? 'none' : 'flex'
       // document.getElementById('age_row').style.display = account == undefined ? 'none' : 'flex'
       // document.getElementById('gender_row').style.display = account == undefined ? 'none' : 'flex'
 
-      fetch(`/api/getRace?race=<%= race_id %>&wallet=${account}`) 
+      fetch(`/api/getRace?race=<%= race_id %>&wallet=${address}`) 
         .then(response => response.json())
         .then(data => {
           console.log(data)
@@ -459,12 +470,9 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      // loadRace()
+      loadRace()
     })
 
-    async function reload() {
-      // loadRace()
-    }
   </script>
   <script type="text/javascript" src="/js/race.js"></script>
 </body>

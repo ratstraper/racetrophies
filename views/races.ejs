@@ -164,7 +164,7 @@
       <div class="cardsBox" id="racesBox"></div>
     </div>
     <%- include('../partials/footer') %>
-    <script src="/js/ethers-integration.js"></script>
+    <script src="/dist/bundle.js" defer></script>
     <div class="switchBox">
       <span>Show All</span>
       <label class="el-switch el-switch-green" style="font-size: 75%;">
@@ -185,7 +185,7 @@
       return p
     }
 
-    // var account
+    let address
     var cards
     function showCards() {
       document.getElementById('racesBox').innerHTML = ''
@@ -298,17 +298,24 @@
     }
 
     
-    async function loadCards() {
+    async function loadCards(account) {
+      let _address = (account ?? "").toUpperCase()
+      if(address === _address) {
+        return
+      }
+      address = _address
+
+      console.log(`loadRace: ${address}`)
+
       Swal.fire({
         title: "",
         text: "Please wait.",
         imageUrl: "/design/run1.gif",
         showConfirmButton: false
-      });
-      
-      account = await getAddress()
-      console.log("acc:", account)
-      fetch(`/api/getActiveRaces?org=0&wallet=${account}`)
+      })
+
+      console.log("acc:", address)
+      fetch(`/api/getActiveRaces?org=0&wallet=${address}`)
         .then(response => response.json())
         .then(data => {
           swal.close()
@@ -337,10 +344,16 @@
       }
     }
 
-    async function reload() {
+    // async function reload() {
       // account = await getAddress()
-      loadCards()
-    }
+      // loadCards()
+    // }
+    
+    window.addEventListener('walletConnected', function(event) {
+      const { address, line } = event.detail;
+      loadCards(address)
+    });
+
   </script>
 </body>
 </html>
