@@ -9,53 +9,60 @@ function prepareAthlete(show, athlete) {
         document.getElementById('athlete_name_input').style.display = 'inline'
         document.getElementById('age_text').style.display = 'none'
         document.getElementById('age_input').style.display = 'inline'
-        document.getElementById('gender_text').style.display = 'none'
-        document.getElementById('gender_input').style.display = 'inline'
+        document.getElementById('sex_text').style.display = 'none'
+        document.getElementById('sex_input').style.display = 'inline'
         document.getElementById('athlete_name_row').style.display = 'flex'
         document.getElementById('age_row').style.display = 'flex'
-        document.getElementById('gender_row').style.display = 'flex'
+        document.getElementById('sex_row').style.display = 'flex'
+        // document.getElementById('register_row').style.display = 'flex'
     } else if(show === 1) { //show text
         document.getElementById('athlete_name_input').style.display = 'none'
         document.getElementById('athlete_name_text').innerHTML = athlete.name
         document.getElementById('athlete_name_text').style.display = 'inline'
         document.getElementById('age_input').style.display = 'none'
+        document.getElementById('age_title').innerHTML = "Age group:"
         document.getElementById('age_text').innerHTML = athlete.age
         document.getElementById('age_text').style.display = 'inline'
-        document.getElementById('gender_input').style.display = 'none'
-        document.getElementById('gender_text').innerHTML = athlete.sex == 1 ? 'male' : 'female'
-        document.getElementById('gender_text').style.display = 'inline'
+        document.getElementById('sex_input').style.display = 'none'
+        document.getElementById('sex_text').innerHTML = athlete.sex == "M" ? 'Male' : 'Female'
+        document.getElementById('sex_text').style.display = 'inline'
         document.getElementById('athlete_name_row').style.display = 'flex'
         document.getElementById('age_row').style.display = 'flex'
-        document.getElementById('gender_row').style.display = 'flex'
+        document.getElementById('sex_row').style.display = 'flex'
+        // document.getElementById('register_row').style.display = 'flex'
     } else { //hide
         document.getElementById('athlete_name_row').style.display = 'none'
         document.getElementById('age_row').style.display = 'none'
-        document.getElementById('gender_row').style.display = 'none'
+        document.getElementById('sex_row').style.display = 'none'
+        // document.getElementById('register_row').style.display = 'none'
     }
 }
 
 function preparePromocode(show, str) {
-    if(show) {
-        if(str === undefined) {
-            document.getElementById('promocode_text').style.display = 'none'
-            document.getElementById('promocode_input').style.display = 'inline'
+    console.log("preparePromocode:", show, str)
+    if(str === undefined) {
+        document.getElementById('promocode_text').style.display = 'none'
+        document.getElementById('promocode_input').style.display = 'inline'
+        if(show === true) {
             document.getElementById('promocode_row').style.display = 'flex'
         } else {
-            document.getElementById('promocode_input').style.display = 'none'
-            document.getElementById('promocode_text').innerHTML = str
-            document.getElementById('promocode_text').style.display = 'inline'
+            document.getElementById('promocode_row').style.display = 'none'
         }
-        document.getElementById('promocode_row').style.display = 'flex'
     } else {
-        document.getElementById('promocode_row').style.display = 'none'
+        document.getElementById('promocode_input').style.display = 'none'
+        document.getElementById('promocode_text').innerHTML = str
+        document.getElementById('promocode_text').style.display = 'inline'
+        document.getElementById('promocode_row').style.display = 'flex'
     }
 }
+
 function preparePrice(price) {
     if(price === undefined) {
         document.getElementById('race_price_row').style.display = 'none'
     } else {
-        document.getElementById('race_price').innerHTML = `${data.race.price} POL <img src="/design/help.svg" onClick="Swal.fire({icon:'question',title:'What is POL',html:'POL is the cryptocurrency used on the Polygon blockchain. It is like the money you use to pay for things on the Polygon network.<p>${price} POL is about equal to ${amount}</p>'})" alt="help" />`
-        document.getElementById('race_price_row').style.display = 'inline'
+        let usd = `${Math.round(price * usdpol)}$`;
+        document.getElementById('race_price').innerHTML = `${price} POL <img src="/design/help.svg" onClick="Swal.fire({icon:'question',title:'What is POL',html:'POL is the cryptocurrency used on the Polygon blockchain. It is like the money you use to pay for things on the Polygon network.<p>${price} POL is about equal to ${usd}</p>'})" alt="help" />`
+        document.getElementById('race_price_row').style.display = 'flex'
     }
 }
 
@@ -66,14 +73,14 @@ function prepareStartNumber(show, data) {
         && data.athlete.bib !== undefined 
         && data.race.id !== undefined) {
         document.getElementById('start_number_text').innerHTML = data.athlete.bib
-        var host = '<%= process.env.HOST_URL %>'
-        document.getElementById('start_number_link').href = `${host}/image/getbib?raceId=${data.race.id}&bib=${data.athlete.bib}`
-        number_display = 'inline'
+        // var host = '<%= process.env.HOST_URL %>'
+        document.getElementById('start_number_link').href = `/bib?raceId=${data.race.id}&bib=${data.athlete.bib}`
+        number_display = 'flex'
     }
     if(show === SN_UPLOAD) { 
         document.getElementById('start_number_row').style.display = number_display
         document.getElementById('tracks_row').style.display = number_display
-        document.getElementById('upload_row').style.display = 'flex'
+        // document.getElementById('upload_row').style.display = 'flex'
         document.getElementById('upload_box').style.background = '#E5E5E5'
         document.getElementById('upload_box').innerHTML = '<h1>Upload on track</h1><p>drag file here</p><p style="text-decoration:underline">or select file from disk</p>'
     } else if(show === SN_TIMEOUT) {
@@ -82,15 +89,27 @@ function prepareStartNumber(show, data) {
         document.getElementById('upload_row').style.display = 'flex'
         document.getElementById('upload_box').style.background = '#EAF4FF'
         document.getElementById('upload_box').innerHTML = '<h1 style="color:#FF0303">Time out</h1>'
+    } else if(show === SN_HIDE) {
+        document.getElementById('start_number_row').style.display = 'none'
+        document.getElementById('tracks_row').style.display = 'none'
+        document.getElementById('upload_row').style.display = 'none'
     }
     document.getElementById('stateContentContainer').style.display = show > 1 ? 'none' : 'flex'
+}
+
+function prepareUploadRow(show) {
+    if(show === true) {
+        document.getElementById('upload_row').style.display = 'flex'
+    } else {
+        document.getElementById('upload_row').style.display = 'none'
+    }
 }
 
 function hideAll() {
     prepareAthlete(2)
     preparePromocode(false)
-    preparePrice()
-    prepareStartNumber(SN_TIMEOUT)
+    prepareUploadRow(false)
+    // prepareStartNumber(SN_TIMEOUT)
 }
 
 function showNft() {
@@ -98,8 +117,8 @@ function showNft() {
 }
 
 function prepareScreen(data) {
-    console.log("prepareScreen:", data.status)
-    if(data.race.active) {
+    console.log("prepareScreen:", data.status, ", active:", data.race.active)
+    if(data.race.active === true) {
         switch (data.status) {
             case 1:
                 prepareAthlete(0)
@@ -107,6 +126,8 @@ function prepareScreen(data) {
                 preparePrice(data.race.price)
                 prepareStartNumber(SN_HIDE)
                 document.getElementById('nftDetail').style.display = 'none'
+                document.getElementById('connection_row').style.display = 'none'
+                document.getElementById('register_row').style.display = 'flex'
                 break;
             case 2:
                 prepareAthlete(1, data.athlete)
@@ -114,51 +135,81 @@ function prepareScreen(data) {
                 preparePrice(data.race.price)
                 prepareStartNumber(SN_HIDE)
                 document.getElementById('nftDetail').style.display = 'none'
+                document.getElementById('connection_row').style.display = 'none'
+                document.getElementById('register_row').style.display = 'flex'
                 break;
             case 3:
                 prepareAthlete(1, data.athlete)
-                preparePromocode(true, data.race.promocode)
+                preparePromocode(false, data.race.promocode)
                 preparePrice(data.race.price)
+                prepareUploadRow(true)
                 prepareStartNumber(SN_UPLOAD, data)
                 document.getElementById('nftDetail').style.display = 'none'
+                document.getElementById('connection_row').style.display = 'none'
+                document.getElementById('register_row').style.display = 'none'
                 break;
             case 4:
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
+                prepareUploadRow(true)
                 prepareStartNumber(SN_UPLOAD, data)
                 document.getElementById('nftDetail').style.display = 'none'
+                document.getElementById('connection_row').style.display = 'none'
+                document.getElementById('register_row').style.display = 'none'
                 break;
             case 5:
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
+                prepareUploadRow(true)
                 prepareStartNumber(SN_UPLOAD, data)
                 document.getElementById('nftDetail').style.display = 'none'
+                document.getElementById('connection_row').style.display = 'none'
+                document.getElementById('register_row').style.display = 'none'
                 break;
             case 6:
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
+                prepareUploadRow(true)
                 prepareStartNumber(SN_UPLOAD, data)
                 showNft(data)
+                document.getElementById('connection_row').style.display = 'none'
+                document.getElementById('register_row').style.display = 'none'
                 break;
             case 10:
                 hideAll()
+                preparePrice(data.race.price)
                 prepareStartNumber(SN_HIDE)
+                document.getElementById('connection_row').style.display = 'flex'
+                document.getElementById('register_row').style.display = 'none'
+                // if(address) {
+                //     prepareAthlete(0)
+                //     preparePromocode(true)
+                //     preparePrice(data.race.price)
+                //     prepareStartNumber(SN_HIDE)
+                //     document.getElementById('connection_row').style.display = 'none'
+                // }
                 break;
         }
     } else {
+        document.getElementById('connection_row').style.display = 'none'
+        document.getElementById('register_row').style.display = 'none'
         switch (data.status) {
             case 1:
             case 2:
             case 10:
                 hideAll()
+                preparePrice()
+                prepareUploadRow(true)
+                prepareStartNumber(SN_TIMEOUT)
                 break;
             case 3:
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
+                prepareUploadRow(true)
                 prepareStartNumber(SN_TIMEOUT, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
@@ -166,6 +217,7 @@ function prepareScreen(data) {
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
+                prepareUploadRow(true)
                 prepareStartNumber(SN_TIMEOUT, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
@@ -173,6 +225,7 @@ function prepareScreen(data) {
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
+                prepareUploadRow(true)
                 prepareStartNumber(SN_TIMEOUT, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
@@ -180,9 +233,13 @@ function prepareScreen(data) {
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
+                prepareUploadRow(true)
                 prepareStartNumber(SN_TIMEOUT, data)
                 showNft(data)
                 break;
         }
     }
+    // if(address) {
+    //     document.getElementById('connection_row').style.display = 'none'
+    // }
 }

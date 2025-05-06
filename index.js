@@ -39,27 +39,27 @@ let model = new ViewModel();
 app.get("/", (req, res) => {
   // console.log(req.socket._httpMessage.req.rawHeaders)
   // console.log(req.headers['user-agent'])
-  res.render("index", { title: "Race Trophies !" })
+  res.render("index", { title: "Race Trophies" })
  });
 
- app.get("/w", (req, res) => { res.render("wallet") });
- app.get("/w2", (req, res) => { res.render("wallet2") });
- app.get("/w3", (req, res) => { res.render("wallet3") });
- app.get("/w4", (req, res) => { res.render("wallet4") });
- app.get("/w5", (req, res) => { res.render("wallet5") });
- app.get("/w9", (req, res) => { res.render("wallet9") });
- app.get("/w10", (req, res) => { res.render("wallet10") });
- app.get("/w11", (req, res) => { res.render("wallet11") });
- app.get("/w12", (req, res) => { res.render("wallet12") });
+//  app.get("/w", (req, res) => { res.render("wallet") });
+//  app.get("/w2", (req, res) => { res.render("wallet2") });
+//  app.get("/w3", (req, res) => { res.render("wallet3") });
+//  app.get("/w4", (req, res) => { res.render("wallet4") });
+//  app.get("/w5", (req, res) => { res.render("wallet5") });
+//  app.get("/w9", (req, res) => { res.render("wallet9") });
+//  app.get("/w10", (req, res) => { res.render("wallet10") });
+//  app.get("/w11", (req, res) => { res.render("wallet11") });
+//  app.get("/w12", (req, res) => { res.render("wallet12") });
 
 app.get("/races", (req, res) => {
   res.render("races");
   // sendMessage(`GET /races`)
 });
 
-app.get("/race/:id", (req, res) => {
-  let price = model.getMaticPrice()
-  res.render("race", {race_id: req.params.id, matic: price});
+app.get("/race/:id", async (req, res) => {
+  let price = await model.getMaticPrice()
+  res.render("race", {race_id: req.params.id, usdpol: price});
   // sendMessage(`GET /race ${req.params.id}`)
 });
 
@@ -78,6 +78,19 @@ app.get("/faq", (req, res) => {
   res.render("faq", {data : JSON.parse(data)});
   // sendMessage(`GET /faq`)
 });
+
+app.get("/bib", (req, res) => {
+  const raceId = parseInt(req.query.raceId);
+  const bib = req.query.bib;
+  // res.render("bib", {raceId: raceId, bib: bib});
+  // res.render("about");
+  const data = new Object();
+  data.race_id = raceId;
+  data.bib = bib;
+  res.json(data);
+  // sendMessage(`GET /about`)
+});
+
 /**
  * API
  */
@@ -125,7 +138,7 @@ app.get('/api/getActiveRaces', async (req, res) => {
 app.get('/api/getRace', async (req, res) => {
   try {
     // console.log('GET /api/getRace', req.query)
-    const data = await model.getRace(parseInt(req.query.race), req.query.wallet)
+    const data = await model.getRace(parseInt(req.query.race), req.query.wallet.toLowerCase())
     // const response = await axios.get(`https://racetrophies.online:3001/api/getRace?race=${req.query.race}&wallet=${req.query.wallet}`);
     // const data = response.data;
     // console.log("/api/getRace responce:", data)

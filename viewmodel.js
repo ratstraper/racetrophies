@@ -16,6 +16,7 @@ export class ViewModel {
             this.mongo.raceFromDB(race_id),
             this.blockchain.getRace(race_id)
         ])
+        race_blockchain.id          = race_id
         race_blockchain.distance    = race_db.distance
         race_blockchain.title       = race_db.title
         race_blockchain.description = race_db.description
@@ -66,13 +67,14 @@ export class ViewModel {
         try {
             let race = await this.getRaceById(raceId)
             if(!this.blockchain.isAddress(athleteAddress)) {
+                console.log("getRace::athleteAddress", athleteAddress, "is not address")
                 let result      = new Object()
                 result.status   = 10
                 result.race     = race
                 return result
             }
             const athlete = await this.blockchain.getAthleteFromRace(athleteAddress, raceId)
-            // console.log("getRace::profile", athlete)
+            console.log("getRace::profile", athlete)
             race_register = athlete[0].result
             if(race_register.runner_number > 0 ) {
                 let rows = await this.mongo.getRawRegister(raceId, Number(race_register.runner_number))
@@ -92,6 +94,7 @@ export class ViewModel {
                 }
             }
             profile = athlete[1].result
+            console.log("getRace::profile", profile)
             if(profile == undefined || profile.name.length == 0) {
                 //Владелец этого адреса еще не зарегистрированный атлет
                 // console.log("Владелец этого адреса еще не зарегистрированный атлет")
@@ -123,7 +126,7 @@ export class ViewModel {
                     result.athlete  = new Object()
                     result.race     = race
                     result.athlete.name = profile.name
-                    result.athlete.sex  = profile.sex == "1" ? "M" : "F"
+                    result.athlete.sex  = profile.sex === 1 ? "M" : "F"
                     result.athlete.age  = Number(profile.age)
                     result.athlete.bib  = Number(race_register.runner_number)
         
@@ -141,7 +144,7 @@ export class ViewModel {
                         result.athlete  = new Object()
                         result.race     = race
                         result.athlete.name = profile.name
-                        result.athlete.sex  = profile.sex == "1" ? "M" : "F"
+                        result.athlete.sex  = profile.sex === 1 ? "M" : "F"
                         result.athlete.age  = Number(profile.age)
                         return result
                     } else {
@@ -153,7 +156,7 @@ export class ViewModel {
                             result.athlete  = new Object()
                             result.race     = race
                             result.athlete.name = profile.name
-                            result.athlete.sex  = profile.sex == "1" ? "M" : "F"
+                            result.athlete.sex  = profile.sex === 1 ? "M" : "F"
                             result.athlete.age  = Number(profile.age)
                             result.athlete.bib  = Number(race_register.runner_number)
                             result.athlete.register = reg_date
@@ -167,7 +170,7 @@ export class ViewModel {
                             result.athlete  = new Object()
                             result.race     = race
                             result.athlete.name = profile.name
-                            result.athlete.sex  = profile.sex == "1" ? "M" : "F"
+                            result.athlete.sex  = profile.sex === 1 ? "M" : "F"
                             result.athlete.age  = Number(profile.age)
                             result.athlete.bib  = Number(race_register.runner_number)
                             result.athlete.register = reg_date
@@ -196,7 +199,7 @@ export class ViewModel {
                     result.race     = race
                     result.athlete  = new Object()
                     result.athlete.name = profile.name
-                    result.athlete.sex  = profile.sex == "1" ? "M" : "F"
+                    result.athlete.sex  = profile.sex === 1 ? "M" : "F"
                     result.athlete.age  = Number(race_register.ages)
                     result.athlete.bib  = Number(race_register.runner_number)
                     result.athlete.date = this.dateFormat(race_register.dates.toString())
@@ -418,6 +421,16 @@ export class ViewModel {
     async getToken(id) {
         return await this.blockchain.getToken(id)
     }
+
+
+    async registerRacer(athleteAddress, raceId, bib, name, sex, birstday, promocode) {
+        return await this.blockchain.registerRacer(athleteAddress, raceId, bib, name, sex, birstday, promocode)
+    }
+
+    // async registerAthlete(athleteAddress, raceId, runner_number) {
+    //     return 0
+    // }
+
 
     /**
      * h:mm:ss.sss 5010999 => 50:10.999

@@ -9,7 +9,7 @@
     justify-content: center;
     align-items: flex-start;
     flex-wrap: wrap;
-    padding: 0 30px;
+    padding: 0 50px;
     margin-bottom: 150px;
     margin-top: 0px;
     .descContainer {
@@ -61,6 +61,9 @@
         text-align: left;
       }
     }
+    .form {
+      margin-bottom: 25px;
+    }
     .buttonBox {
       display: flex;
       width: 100%;
@@ -75,7 +78,7 @@
     align-items: center;
     flex-wrap: wrap;
     background: #eeeeee;
-    padding: 0 30px;
+    padding: 0 50px;
     margin-bottom: 50px;
     p {
       font-family: 'Source Sans Pro Light';
@@ -96,7 +99,7 @@
   .BannerConnectWallet {
     width: 100%;
     display: none;
-    padding: 0 30px;
+    padding: 0 50px;
     background: rgba(255, 3, 3, 0.41);
     margin-bottom: 19px;
     h4 {
@@ -136,6 +139,13 @@
         display: flex;
         justify-content: flex-start;
         .rowValue {
+          width: 100%;
+          @media (max-width: 400px) {
+            font-size: 18px;
+          }
+        }
+        .rowBib {
+          display: flex;
           width: 100%;
           @media (max-width: 400px) {
             font-size: 18px;
@@ -198,21 +208,29 @@
       text-align: center;
       display: flex;
       justify-content: center;
+      color: #202020;;
     }
+  }
+  .error-message {
+    color: #cc0000;
+    font-size: 0.8em;
+    font-weight: 600;
+    display: block;
+    margin-top: 4px;
   }
 </style>
 </head>
 <body>
   <%- include('../partials/header') %>
   <div class="page">
-      <Header isMenu={false} userName={athlete.name}/>
-      <div class="BannerContainer" id="bannerDownLoadWallet">
-          <p>We reward our participants with virtual digital NFT medals. You need a virtual medal hanger to store your virtual trophies. Therefore, to register for races, payments and receive medals, you need to have a crypto wallet. A crypto wallet is an app that is installed on your mobile, manages your crypto account, and stores your crypto money and NFT digital trophies.</p>
-          <p>Install crypto wallet <a href="https://trustwallet.com/" target="_blank">Trust Wallet</a> or <a href="https://metamask.io/" target="_blank">Metamask</a> and your virtual medal hanger is always in your pocket!</p>
-      </div>
-      <div class="BannerConnectWallet" id="bannerConnectWallet">
-        <h4>Attach  your wallet in order to have access to all the features of the site in the future.</h4>
-      </div>
+    <Header isMenu={false} userName={athlete.name} />
+    <div class="BannerContainer" id="bannerDownLoadWallet">
+        <p>We reward our participants with virtual digital NFT medals. You need a virtual medal hanger to store your virtual trophies. Therefore, to register for races, payments and receive medals, you need to have a crypto wallet. A crypto wallet is an app that is installed on your mobile, manages your crypto account, and stores your crypto money and NFT digital trophies.</p>
+        <p>Install crypto wallet <a href="https://trustwallet.com/" target="_blank">Trust Wallet</a> or <a href="https://metamask.io/" target="_blank">Metamask</a> and your virtual medal hanger is always in your pocket!</p>
+    </div>
+    <div class="BannerConnectWallet" id="bannerConnectWallet">
+      <h4>Attach  your wallet in order to have access to all the features of the site in the future.</h4>
+    </div>
 
       <div class="pageContainer">
         <div class="descContainer">
@@ -229,13 +247,16 @@
         </div>
       
         <div class="statusesContentContainer" id="statusesContentContainer">
-          <div class="row" id="athlete_name_row" style="display:none;">
+          <div class="row form" id="athlete_name_row" style="display:none;">
             <h2>Member Name:</h2>
             <div class="box">
                 <h2 class="rowValue">
                   <span id="athlete_name_text">{...loading}</span>
-                  <span id="athlete_name_input" style="display: inline;"><input type="text" id="name" name="name" value="athlete.name!"></span>
-                  <img src="/design/help.svg" onClick="Swal.fire({icon:'info',html:'The name you write here will be registered in your account and in your scorecard and in each of your NFT awards.'})" alt="info"/>
+                  <span id="athlete_name_input" style="display: inline;">
+                    <input type="text" id="name" name="name" placeholder="Name for account, scorecard & NFT">
+                    <img src="/design/help.svg" onClick="Swal.fire({icon:'info',html:'The name you write here will be registered in your account and in your scorecard and in each of your NFT awards.'})" alt="info"/>
+                    <span id="error_name" class="error-message"></span>
+                  </span>
                 </h2>
             </div>
             <!-- <div class="box" id="athlete_name_input" style="display:none;">
@@ -252,83 +273,83 @@
           <!-- const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
               onChange(event)
           } -->
-          <div class="row" id="age_row" style="display:none;">
-            <h2>Date of Birth:</h2>
+          <div class="row form" id="age_row" style="display:none;">
+            <h2 id="age_title">Date of Birth:</h2>
             <div class="box">
               <h2 class="rowValue">
                 <span id="age_text">{...loading}</span> 
-                <span id="age_input"><input type="date" id="date" name="age"></span> 
-                <img src="/design/help.svg" onClick="Swal.fire({icon:'info',html:'The date of birth will be saved once in a secure place in the blockchain and will be used to calculate your age at the time of the race. This is needed to determine your age category.'})" alt="info" />
-              </h2>
-            </div>
-          </div>
-
-          <div class="row" id="gender_row" style="display:none;">
-            <h2>Gender:</h2>
-            <div class="box">
-                <h2 class="rowValue">
-                  <span id="gender_text">{...loading}</span> 
-                  <span id="gender_input">                      
-                    <select name="sex" id="sex">
-                      <option value="female">female</option>
-                      <option value="male">male</option>
-                    </select></span> 
-                </h2>
-                <!-- <div class="selectBox" id="select_gender" style="display:none;"> -->
-                  <!-- <FormControl fullWidth> -->
-                    <!-- <Select
-                        value={athlete.sex}
-                        placeholder={athlete.sex}
-                        label="Gender"
-                        name="sex"
-                        onChange={handleChange}
-                        error={isEmpty(athlete.sex)}
-                    >   -->
-                    <!-- <label for="sex">Gender:</label>
-                    <select name="sex" id="sex" style="width:'100%';max-width:'440px';">
-                      <option value="female">female</option>
-                      <option value="male">male</option>
-                    </select> -->
-                <!-- </FormControl> -->
-              <!-- </div> -->
-            </div>
-          </div>
-
-          <div class="row"><h2>Distance:</h2><div class="box"><h2 class="rowValue" id="race_distance">{...loading}</h2></div></div>
-          <div class="row"><h2>Run date:</h2><div class="box"><h2 class="rowValue" id="race_data">{...loading}</h2></div></div>
-
-          <div class="row" id="promocode_row" style="display:none;">
-            <h2>Promo code:</h2>
-            <div class="box">
-              <h2 class="rowValue">
-                <span id="promocode_text">{...loading}</span> 
-                <span id="promocode_input">  
-                  <input type="text" placeholder="Enter certificate Id" id="promocode" name="promocode"required value={promocode} style="width:'100%';max-width:'440px';">                    
+                <span id="age_input">
+                  <input type="date" id="date" name="age">
+                  <img src="/design/help.svg" onClick="Swal.fire({icon:'info',html:'The date of birth will be saved once in a secure place in the blockchain and will be used to calculate your age at the time of the race. This is needed to determine your age category.'})" alt="info" />
+                  <span id="error_date" class="error-message"></span>
                 </span> 
               </h2>
             </div>
           </div>
 
-          <div class="row" id="race_price_row" style="display:none;">
+          <div class="row form" id="sex_row" style="display:none;">
+            <h2>Sex:</h2>
+            <div class="box">
+              <h2 class="rowValue">
+                <span id="sex_text">{...loading}</span> 
+                <span id="sex_input">                      
+                  <select name="sex" id="sex">
+                    <option value="" disabled selected>Select sex (used for race category)</option>
+                    <option value="0">Female</option>
+                    <option value="1">Male</option>
+                  </select><span id="error_sex" class="error-message"></span></span> 
+              </h2>
+            </div>
+          </div>
+
+          <div class="row form"><h2>Distance:</h2><div class="box"><h2 class="rowValue" id="race_distance">{...loading}</h2></div></div>
+          <div class="row form"><h2>Run date:</h2><div class="box"><h2 class="rowValue" id="race_data">{...loading}</h2></div></div>
+
+          <div class="row form" id="promocode_row" style="display:none;">
+            <h2>Promo code:</h2>
+            <div class="box">
+              <h2 class="rowValue">
+                <span id="promocode_text">{...loading}</span> 
+                <span id="promocode_input">  
+                  <input type="text" placeholder="If you have a discount code, enter it here" id="promocode" name="promocode"required style="width:'100%';max-width:'440px';">                    
+                </span> 
+              </h2>
+            </div>
+          </div>
+
+          <div class="row form" id="race_price_row" style="display:none;">
             <h2>Price:</h2>
             <div class="box">
               <h2 class="rowValue" id="race_price">{...loading}</h2>
             </div>
           </div>
-        </div>
-        <div class="statusesContentContainer" id="stateContentContainer" style="display:none;">
-          <div class="row" id="start_number_row">
-            <h2>Start number:</h2> <!-- value= {athlete?.bib!} -->
+
+          <div class="row form" id="connection_row" style="display:none;">
+            <button class="buttonBlue" id="connectWalletButton">Connect your wallet to register for the race</button>
+          </div>
+  
+          <div class="row form" id="register_row" style="display:none;">
+            <h2>&nbsp;</h2>
             <div class="box">
               <h2 class="rowValue">
-                <span id="start_number_text">{...loading}</span>
+                <button class="buttonBlue buttonOrange" id="registerButton">Register and Pay</button>
+              </h2>
+            </div>
+          </div>
+        </div>
+        <div class="statusesContentContainer" id="stateContentContainer" style="display:none;">
+          <div class="row form" id="start_number_row" style="display:none;">
+            <h2>Start number:</h2>
+            <div class="box">
+              <h2 class="rowBib">
+                <span id="start_number_text" style="align-content: center; margin-right: 35px;">{...loading}</span>
                 <a class="downloadLink" id="start_number_link" href="" target="_blank">
-                  <Button disabled class="buttonBlue">Download for print</Button>
+                  <Button class="buttonBlue">Download for print</Button>
                 </a>
             </div>
           </div>
 
-          <div class="row" id="tracks_row">
+          <div class="row form" id="tracks_row"  style="display:none;">
             <!-- if (status === 4) return ( -->
               <h2>Track:</h2>
               <div class="rowsBox" id="tracks_value"> <!-- values={tracks} -->
@@ -340,7 +361,7 @@
           </div>
           <!-- {/* total */} -->
 
-          <div class="row" id="upload_row">
+          <div class="row" id="upload_row" style="display:none;">
               <!-- <UploadFile multiple={true} name="uloader" onChange={onUpload} value={files} isUploaded={isUploaded} >
                   <h1>Upload on track</h1>
                   <p>drag file here</p>
@@ -374,7 +395,6 @@
 
           </div>
         </div>
-
         <div class="nftDetailContainer" id="nftDetail" style="display:none;">
           <div class="tokenContainer">
             <div class="tokenImageBox">
@@ -402,28 +422,36 @@
   </div>
   <%- include('../partials/footer') %>
   <script src="/dist/bundle.js" defer></script>
+  <script type="text/javascript" src="/js/race.js"></script>
   <script>
+    let usdpol = '<%= usdpol %>'
     let address
     document.getElementById('bannerDownLoadWallet').style.display = (typeof window.ethereum == 'undefined') ? 'flex' : 'none'
 
     window.addEventListener('walletConnected', function(event) {
       const { address, line } = event.detail;
-      console.log(`Кошелёк подключен с адресом: ${address}`);
-      console.log(`Дополнительная информация: ${line}`);
+      console.log(`(race)Кошелёк подключен с адресом: ${address}`);
+      console.log(`(race)Дополнительная информация: ${line}`);
+      loadRace(address);
+    });
+
+    window.addEventListener('walletDisconnected', function(event) {
+      console.log(`(race)Кошелёк отключен`);
+      loadRace("");
+    });
+
+    window.addEventListener('registerAthlete', function(event) {
       loadRace(address);
     });
 
     async function loadRace(account) {
-      let _address = (account ?? "").toUpperCase()
+      let _address = (account ?? "").toLowerCase()
       if(address === _address) {
         return
       }
       address = _address
-      console.log(`loadRace: ${address}`);
+      console.log(`/api/getRace?wallet=${address}`);
       document.getElementById('bannerConnectWallet').style.display = account == undefined ? 'flex' : 'none'
-      // document.getElementById('athlete_name_row').style.display = account == undefined ? 'none' : 'flex'
-      // document.getElementById('age_row').style.display = account == undefined ? 'none' : 'flex'
-      // document.getElementById('gender_row').style.display = account == undefined ? 'none' : 'flex'
 
       fetch(`/api/getRace?race=<%= race_id %>&wallet=${address}`) 
         .then(response => response.json())
@@ -474,7 +502,102 @@
     })
 
   </script>
-  <script type="text/javascript" src="/js/race.js"></script>
+  <script>
+    const connectWalletButton = document.getElementById('connectWalletButton');
+    connectWalletButton.addEventListener('click', function() { connectWallet() });
+  </script>
+  <script>
+    const nameInput = document.getElementById("name");
+    const dateInput = document.getElementById("date");
+    const sexInput = document.getElementById("sex");
+    const promocodeInput = document.getElementById("promocode");
+
+    const errorName = document.getElementById("error_name");
+    const errorDate = document.getElementById("error_date");
+    const errorSex = document.getElementById("error_sex");
+
+    nameInput.addEventListener("input", function () {
+      if (nameInput.value.trim().length >= 2) {
+        errorName.textContent = "";
+      }
+    });
+
+    dateInput.addEventListener("change", function () {
+      errorDate.textContent = "";
+
+      const date = dateInput.value;
+      if (!date) return;
+
+      const birthDate = new Date(date);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      if (age < 8 || age > 102) {
+        errorDate.textContent = "Age must be between 8 and 102 years.";
+      }
+    });
+
+
+    sexInput.addEventListener("change", function () {
+      errorSex.textContent = "";
+    });
+
+    // Обработка кнопки регистрации
+    document.getElementById("registerButton").addEventListener("click", function () {
+      const name = nameInput.value.trim();
+      const date = dateInput.value;
+      const sex = sexInput.value;
+      const promocode = promocodeInput.value.trim();
+
+      // Очистка ошибок
+      errorName.textContent = "";
+      errorDate.textContent = "";
+      errorSex.textContent = "";
+
+      let hasError = false;
+
+      if (!name) {
+        errorName.textContent = "Please enter your name.";
+        hasError = true;
+      }
+
+      if (!date) {
+        errorDate.textContent = "Please select your date of birth.";
+        hasError = true;
+      }
+
+      if (date) {
+        const birthDate = new Date(date);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+
+        if (age < 8 || age > 102) {
+          errorDate.textContent = "Age must be between 8 and 102 years.";
+          hasError = true;
+        }
+      }
+
+      if (!sex) {
+        errorSex.textContent = "Please select your sex.";
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      console.log(name, date, sex, promocode);
+      var birthday = date.replace(/-/g, "");
+      registerNewAthlete(<%= race_id %>, 1, name, sex, birthday, promocode)
+    });
+
+  </script>
 </body>
 </html>
 
