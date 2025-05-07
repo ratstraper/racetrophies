@@ -160,7 +160,7 @@ function prepareScreen(data) {
             case 4: //Зарегистрированный атлет, участвующий в забеге, отправивший трек на подтверждение
                 //только здесь отображаются треки data.tracks {date: 20251231, original_file: filename}
                 prepareAthlete(1, data.athlete)
-                preparePromocode(true, data.race.promocode)
+                preparePromocode(false, data.race.promocode)
                 preparePrice(data.race.price)
                 prepareStartNumber(SN_UPLOAD, data)
                 document.getElementById('nftDetail').style.display = 'none'
@@ -169,7 +169,7 @@ function prepareScreen(data) {
                 break;
             case 5: //Зарегистрированный атлет, участвующий в забеге, проебавший время
                 prepareAthlete(1, data.athlete)
-                preparePromocode(true, data.race.promocode)
+                preparePromocode(false, data.race.promocode)
                 preparePrice(data.race.price)
                 prepareStartNumber(SN_UPLOAD, data)
                 document.getElementById('nftDetail').style.display = 'none'
@@ -178,7 +178,7 @@ function prepareScreen(data) {
                 break;
             case 6: //Зарегистрированный атлет, участвующий в забеге, получивший медаль финишера (NFT)
                 prepareAthlete(1, data.athlete)
-                preparePromocode(true, data.race.promocode)
+                preparePromocode(false, data.race.promocode)
                 preparePrice(data.race.price)
                 prepareStartNumber(SN_UPLOAD, data)
                 showNft(data)
@@ -213,28 +213,28 @@ function prepareScreen(data) {
                 break;
             case 3:
                 prepareAthlete(1, data.athlete)
-                preparePromocode(true, data.race.promocode)
+                preparePromocode(false, data.race.promocode)
                 preparePrice(data.race.price)
                 prepareStartNumber(SN_TIMEOUT, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
             case 4:
                 prepareAthlete(1, data.athlete)
-                preparePromocode(true, data.race.promocode)
+                preparePromocode(false, data.race.promocode)
                 preparePrice(data.race.price)
                 prepareStartNumber(SN_TIMEOUT, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
             case 5:
                 prepareAthlete(1, data.athlete)
-                preparePromocode(true, data.race.promocode)
+                preparePromocode(false, data.race.promocode)
                 preparePrice(data.race.price)
                 prepareStartNumber(SN_TIMEOUT, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
             case 6:
                 prepareAthlete(1, data.athlete)
-                preparePromocode(true, data.race.promocode)
+                preparePromocode(false, data.race.promocode)
                 preparePrice(data.race.price)
                 prepareStartNumber(SN_TIMEOUT, data)
                 showNft(data)
