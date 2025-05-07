@@ -1,7 +1,9 @@
 import express from "express"
 import bodyParser from "body-parser"
 import { ViewModel } from "./viewmodel.js"
-import fs from 'fs'
+import multer from 'multer'
+// import fs from 'fs'
+import fs from 'fs/promises'
 import path from 'path'
 import { fileURLToPath } from 'url'
 // import https from 'https'
@@ -35,6 +37,83 @@ serveStatic('/js', 'public/js', { maxAge: '1m', immutable: false });
 serveStatic('/dist', 'public/dist', { maxAge: '1m', immutable: false });
 
 let model = new ViewModel();
+
+/**
+ * Upload files
+ */
+const UPLOAD_DIR = path.resolve(process.cwd(), 'private_uploads');
+await fs.mkdir(UPLOAD_DIR, { recursive: true });
+
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, UPLOAD_DIR),
+  filename: (_req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, `${Date.now()}-tmp${ext}`);
+  }
+});
+
+
+
+
+// const storage = multer.diskStorage({
+//   destination: (_req, _file, cb) => cb(null, UPLOAD_DIR),
+
+//   filename: async (req, file, cb) => {
+//     console.log('filename', req.body);
+//     try {
+//       const raceId           = req.body.id;
+//       const athleteWallet    = req.body.wallet;
+//       const tracks           = await model.getTracksCount(raceId, athleteWallet);
+//       const count            = tracks + 1;
+//       const ext              = path.extname(file.originalname).toLowerCase();
+//       const safeRace         = raceId.replace(/[^\w\-]/g, '_');     // защита от мусора
+//       const ts               = `${new Date().toISOString()}`; // dayjs().format('YYYYMMDD_HHmmss');
+//       cb(null, `[${count}]${safeRace}_${ts}${ext}`);
+//     } catch (e) {
+//       cb(e);
+//     }
+//   }
+// });
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 1 * 1024 * 1024 },   // ≤ 1 МБ
+  fileFilter: (_req, file, cb) => {
+    // Пример: принимаем только .gpx|.fit|.tcx
+    if (!/(\.gpx|\.fit|\.tcx|\.png)$/i.test(file.originalname)) {
+      return cb(new Error('Недопустимый тип файла'));
+    }
+    cb(null, true);
+  }
+});
+
+app.post('/api/upload', upload.single('uloader'), async (req, res, next) => {
+  try {
+    const { raceId, wallet } = req.body;          // теперь поля доступны
+    if (!raceId || !wallet) {
+      throw new Error('raceId и wallet обязательны');
+    }
+
+    const tracks     = await model.getTracksCount(raceId, wallet);
+    const count      = tracks + 1;
+    const safeRace   = raceId.replace(/[^\w\-]/g, '_');
+    const ts         = `${new Date().toISOString()}`; //dayjs().format('YYYYMMDD_HHmmss');
+    const ext        = path.extname(req.file.originalname).toLowerCase();
+    const finalName  = `${safeRace}_[${count}]_${ts}${ext}`;
+    const finalPath  = path.join(UPLOAD_DIR, finalName);
+
+    await fs.rename(req.file.path, finalPath); 
+    const result = await model.insertTrack(raceId, wallet, req.file.originalname, finalPath, 0, 0, 0);
+
+    res.json({ ok: result, savedAs: finalName });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * 
+ */
 
 app.get("/", (req, res) => {
   // console.log(req.socket._httpMessage.req.rawHeaders)
@@ -73,10 +152,29 @@ app.get("/rules", (req, res) => {
   // sendMessage(`GET /rules`)
 });
 
-app.get("/faq", (req, res) => {
-  const data = fs.readFileSync(__dirname + "/public/assets/faq.json")
-  res.render("faq", {data : JSON.parse(data)});
+app.get("/faq", async (req, res, next) => {
+  // переход на асинхронный метод
+  // const data = fs.readFileSync(__dirname + "/public/assets/faq.json")
+  // res.render("faq", {data : JSON.parse(data)});
   // sendMessage(`GET /faq`)
+  try {
+    const file = await fs.readFile(
+      path.join(__dirname, '/public/assets/faq.json'),
+      'utf8'
+    );
+    const data = JSON.parse(file);
+    res.render('faq', { data });
+  } catch (err) {
+    next(err);
+  }
+  // или объявить один раз при старте сервера
+  // const faqPath = path.join(__dirname, '/public/assets/faq.json');
+  // const faqData = JSON.parse(await fs.readFile(faqPath, 'utf8'));
+  // и использовать в каждом запросе
+  // app.get('/faq', (req, res) => {
+  //   res.render('faq', { data: faqData });
+  // });
+
 });
 
 app.get("/bib", (req, res) => {
@@ -150,6 +248,23 @@ app.get('/api/getRace', async (req, res) => {
     sendMessage(`GET /api/getRace ${error}`)
   }  
   // sendMessage(`GET /api/getRace ${req.query.race}, ${req.query.wallet}`)
+});
+
+app.get('/api/getTracks', async (req, res) => {
+  try {
+    const raceId = parseInt(req.query.raceId);
+    const address = req.query.address;
+    var number = await model.getTracksCount(raceId, address);
+    number ++;
+    console.log('GET /api/getTracks', number)
+
+
+    return res.json(data);
+  } catch (error) {
+    console.error(error);
+    const data = {}
+    res.json(data) //.status(500).send('Произошла ошибка при получении данных');
+  }
 });
 
 // app.get('/api/mongo/getRace', async (req, res) => {

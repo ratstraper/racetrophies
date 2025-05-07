@@ -1,6 +1,7 @@
 node_modules
 public/images
 public/dist/
+private_uploads
 .env
 pnpm-lock.yaml
 package-lock.json

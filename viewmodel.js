@@ -1,5 +1,6 @@
 import { MongoDB } from './mongo.js'
 import { BlockchainViem } from './blockchainviem.js'
+import { meter } from 'viem/chains'
 var maticPrice = 0
 
 export class ViewModel {
@@ -59,6 +60,21 @@ export class ViewModel {
         return race_blockchain
     }
 
+    async getTracksCount(raceId, athleteAddress) {
+        const data = await this.getTracks(raceId, athleteAddress)
+        return data === null ? 0 : data.length;
+    }
+
+    async getTracks(raceId, athleteAddress) {
+        const athlete = await this.blockchain.getAthleteFromRace(athleteAddress, raceId)
+        let race_register = athlete[0].result
+        if(race_register !== undefined && race_register.runner_number > 0 ) {
+            let rows = await this.mongo.getRawRegister(Number(raceId), Number(race_register.runner_number))
+            return rows
+        }
+        return null
+    }
+
     async getRace(raceId, athleteAddress) {
         var reg_date
         var profile
@@ -77,7 +93,7 @@ export class ViewModel {
             console.log("getRace::profile", athlete)
             race_register = athlete[0].result
             if(race_register.runner_number > 0 ) {
-                let rows = await this.mongo.getRawRegister(raceId, Number(race_register.runner_number))
+                let rows = await this.mongo.getRawRegister(Number(raceId), Number(race_register.runner_number))
                 console.log("rows:", rows)
                 if(rows !== null) {
                     for(let i = 0; i< rows.length; i++) {
@@ -88,7 +104,12 @@ export class ViewModel {
                                 reg_date = null
                             }
                         } else if(rows[i].action == 'TR') {
-                            track_files.push({date: this.dateFormat(rows[i].date.toString().substring(0,10).replaceAll('-', '')), original_file: rows[i].original_file})
+                            track_files.push({
+                                date: this.dateFormat(rows[i].upload_date.toString().substring(0,10).replaceAll('-', '')), 
+                                original_file: rows[i].original_file,
+                                meters: rows[i].meters,
+                                time: this.timeFormat(rows[i].time)
+                            })
                         }
                     }
                 }
@@ -430,6 +451,25 @@ export class ViewModel {
     // async registerAthlete(athleteAddress, raceId, runner_number) {
     //     return 0
     // }
+    
+    async insertTrack(raceId, athleteAddress, originalFile, localFile, meters, time, date) {
+        const athlete = await this.blockchain.getAthleteFromRace(athleteAddress, raceId)
+        console.log("getRace::profile", athlete)
+        const race_register = athlete[0].result
+        if(race_register.runner_number > 0 ) {
+            await this.mongo.insertTrackMongoDB(raceId, 
+                race_register.runner_number, 
+                originalFile, 
+                localFile, 
+                this.nowDate(), 
+                meters, 
+                time, 
+                date
+            );
+            return true
+        }
+        return false
+    }
 
 
     /**

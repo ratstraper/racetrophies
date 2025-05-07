@@ -218,6 +218,10 @@
     display: block;
     margin-top: 4px;
   }
+  .filename {
+    color: #0073ff;
+  }
+  
 </style>
 </head>
 <body>
@@ -350,44 +354,20 @@
           </div>
 
           <div class="row form" id="tracks_row"  style="display:none;">
-            <!-- if (status === 4) return ( -->
               <h2>Track:</h2>
-              <div class="rowsBox" id="tracks_value"> <!-- values={tracks} -->
-                <!-- {values && values.map((value: any, idx: number) => 
-                    value.date !== '//' && 
-                  <h2 key={idx} className={classes.rowValue}>{`${idx + 1}. ${value?.date!} - ${value?.original_file}`}</h2>
-                )} -->
-              </div> 
+              <div class="box row" id="tracks_value"></div> 
           </div>
           <!-- {/* total */} -->
 
           <div class="row" id="upload_row" style="display:none;">
-              <!-- <UploadFile multiple={true} name="uloader" onChange={onUpload} value={files} isUploaded={isUploaded} >
-                  <h1>Upload on track</h1>
-                  <p>drag file here</p>
-                  <p style="text-decoration:'underline'">or select file from disk</p>
-              </UploadFile> -->
-            <!-- if (isUploaded) return (
-              <div className={classes.Upload} >
-                  <h1>File download success</h1>
-              </div>
-          ) -->
-              <label class="uploadBox" id="upload_box" style="background:#E5E5E5;"> 
-                  <!-- { disabled ? { background: '#E5E5E5' } : { background: '#EAF4FF' }}> -->
-                  <h1>Upload on track</h1>
-                  <p>drag file here</p>
-                  <p style="text-decoration:'underline'">or select file from disk</p>
-                <input
-                    name="uloader"
-                    type="file"
-                    hidden
-                    value={files}
-                    onChange={handleChange}
-                    multiple=true
-                    disabled={disabled}
-                    onDrop={handleDrop}
-                />
-            </label>
+              <label id="upload_box" class="uploadBox" style="background:#E5E5E5;">
+                <h1>Upload on track</h1>
+                <p>drag file here</p>
+                <p style="text-decoration:underline">or select file from disk</p>
+              
+                <input id="fileInput" name="uloader" type="file" hidden />
+              </label>
+
             <!-- if disabled
             <UploadFile disabled multiple={true} name="uloader" onChange={onUpload} value={files} isUploaded={isUploaded} >
               <h1 style="color:'#FF0303'">Time out</h1>
@@ -597,6 +577,57 @@
       registerNewAthlete(<%= race_id %>, 1, name, sex, birthday, promocode)
     });
 
+  </script>
+  <script>
+    const box      = document.getElementById('upload_box');
+    const fileIn   = document.getElementById('fileInput');
+    
+    box.addEventListener('click', () => fileIn.click());
+    
+    box.addEventListener('dragover', e => { e.preventDefault(); box.style.opacity = .7; });
+    box.addEventListener('dragleave', () => box.style.opacity = 1);
+    box.addEventListener('drop', e => {
+      e.preventDefault();
+      box.style.opacity = 1;
+      sendFile(e.dataTransfer.files[0]);
+    });
+    
+    fileIn.addEventListener('change', e => sendFile(e.target.files[0]));
+    
+    async function sendFile(file) {
+      if (!file) return;
+      if (file.size > 1_048_576) return alert('Файл > 1 МБ');
+    
+      const fd = new FormData();
+      fd.append('uloader', file);
+      fd.append('wallet', address);
+      fd.append('raceId', <%= race_id %>);
+    
+      try {
+        const resp = await fetch('/api/upload', { method: 'POST', body: fd });
+
+        // 1. Сначала проверяем, что сервер вообще вернул JSON
+        const ct = resp.headers.get('content-type') || '';
+        let data;
+        if (ct.includes('application/json')) {
+          data = await resp.json();
+        } else {
+          // HTML или текст → читаем как text() чтобы не падало SyntaxError
+          const text = await resp.text();
+          throw new Error(`Сервер вернул HTML: ${text.slice(0,100)}…`);
+        }
+
+        if (!resp.ok || !data.ok) {
+          throw new Error(data.message || 'Upload error');
+        }
+
+        alert('Загружено как ' + data.savedAs);
+
+      } catch (err) {
+        console.error(err);
+        alert('Ошибка загрузки: ' + err.message);
+      }
+    }
   </script>
 </body>
 </html>

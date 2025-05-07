@@ -1,7 +1,7 @@
 // Start Number const
 const SN_UPLOAD = 0
 const SN_TIMEOUT = 1
-const SN_HIDE = 0
+const SN_HIDE = 2
 
 function prepareAthlete(show, athlete) {
     if(show === 0) {  //set input
@@ -39,7 +39,6 @@ function prepareAthlete(show, athlete) {
 }
 
 function preparePromocode(show, str) {
-    console.log("preparePromocode:", show, str)
     if(str === undefined) {
         document.getElementById('promocode_text').style.display = 'none'
         document.getElementById('promocode_input').style.display = 'inline'
@@ -76,20 +75,30 @@ function prepareStartNumber(show, data) {
         // var host = '<%= process.env.HOST_URL %>'
         document.getElementById('start_number_link').href = `/bib?raceId=${data.race.id}&bib=${data.athlete.bib}`
         number_display = 'flex'
+        if(data.tracks !== undefined && data.tracks.length > 0) {
+            var tracks = data.tracks.map((track) => {
+                return `<div><h2 class="rowValue">${track.date} : <span class="filename">${track.original_file}</span></h2></div>`
+            }).join('')
+            document.getElementById('tracks_value').innerHTML = tracks
+            document.getElementById('tracks_row').style.display = 'flex'
+        }
     }
     if(show === SN_UPLOAD) { 
+        console.log("prepareStartNumber: SN_UPLOAD")
         document.getElementById('start_number_row').style.display = number_display
         document.getElementById('tracks_row').style.display = number_display
-        // document.getElementById('upload_row').style.display = 'flex'
+        document.getElementById('upload_row').style.display = 'flex'
         document.getElementById('upload_box').style.background = '#E5E5E5'
         document.getElementById('upload_box').innerHTML = '<h1>Upload on track</h1><p>drag file here</p><p style="text-decoration:underline">or select file from disk</p>'
     } else if(show === SN_TIMEOUT) {
+        console.log("prepareStartNumber: SN_TIMEOUT")
         document.getElementById('start_number_row').style.display = number_display
         document.getElementById('tracks_row').style.display = number_display
         document.getElementById('upload_row').style.display = 'flex'
         document.getElementById('upload_box').style.background = '#EAF4FF'
         document.getElementById('upload_box').innerHTML = '<h1 style="color:#FF0303">Time out</h1>'
     } else if(show === SN_HIDE) {
+        console.log("prepareStartNumber: SN_HIDE")
         document.getElementById('start_number_row').style.display = 'none'
         document.getElementById('tracks_row').style.display = 'none'
         document.getElementById('upload_row').style.display = 'none'
@@ -108,7 +117,8 @@ function prepareUploadRow(show) {
 function hideAll() {
     prepareAthlete(2)
     preparePromocode(false)
-    prepareUploadRow(false)
+    // prepareUploadRow(false)
+    document.getElementById('upload_row').style.display = 'none'
     // prepareStartNumber(SN_TIMEOUT)
 }
 
@@ -120,7 +130,7 @@ function prepareScreen(data) {
     console.log("prepareScreen:", data.status, ", active:", data.race.active)
     if(data.race.active === true) {
         switch (data.status) {
-            case 1:
+            case 1: //Это новый атлет, не зарегистрированный в блокчейне
                 prepareAthlete(0)
                 preparePromocode(true)
                 preparePrice(data.race.price)
@@ -129,7 +139,7 @@ function prepareScreen(data) {
                 document.getElementById('connection_row').style.display = 'none'
                 document.getElementById('register_row').style.display = 'flex'
                 break;
-            case 2:
+            case 2: //Это зарегистрированный в блокчейне атлет, но не внесший депозит за этот забег
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true)
                 preparePrice(data.race.price)
@@ -138,47 +148,44 @@ function prepareScreen(data) {
                 document.getElementById('connection_row').style.display = 'none'
                 document.getElementById('register_row').style.display = 'flex'
                 break;
-            case 3:
+            case 3: //Зарегистрированный атлет, участвующий в забеге
                 prepareAthlete(1, data.athlete)
                 preparePromocode(false, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareUploadRow(true)
                 prepareStartNumber(SN_UPLOAD, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 document.getElementById('connection_row').style.display = 'none'
                 document.getElementById('register_row').style.display = 'none'
                 break;
-            case 4:
+            case 4: //Зарегистрированный атлет, участвующий в забеге, отправивший трек на подтверждение
+                //только здесь отображаются треки data.tracks {date: 20251231, original_file: filename}
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareUploadRow(true)
                 prepareStartNumber(SN_UPLOAD, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 document.getElementById('connection_row').style.display = 'none'
                 document.getElementById('register_row').style.display = 'none'
                 break;
-            case 5:
+            case 5: //Зарегистрированный атлет, участвующий в забеге, проебавший время
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareUploadRow(true)
                 prepareStartNumber(SN_UPLOAD, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 document.getElementById('connection_row').style.display = 'none'
                 document.getElementById('register_row').style.display = 'none'
                 break;
-            case 6:
+            case 6: //Зарегистрированный атлет, участвующий в забеге, получивший медаль финишера (NFT)
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareUploadRow(true)
                 prepareStartNumber(SN_UPLOAD, data)
                 showNft(data)
                 document.getElementById('connection_row').style.display = 'none'
                 document.getElementById('register_row').style.display = 'none'
                 break;
-            case 10:
+            case 10: //unknow user, не подключенный кошелек
                 hideAll()
                 preparePrice(data.race.price)
                 prepareStartNumber(SN_HIDE)
@@ -193,7 +200,7 @@ function prepareScreen(data) {
                 // }
                 break;
         }
-    } else {
+    } else { //уже забег завершен
         document.getElementById('connection_row').style.display = 'none'
         document.getElementById('register_row').style.display = 'none'
         switch (data.status) {
@@ -202,14 +209,12 @@ function prepareScreen(data) {
             case 10:
                 hideAll()
                 preparePrice()
-                prepareUploadRow(true)
                 prepareStartNumber(SN_TIMEOUT)
                 break;
             case 3:
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareUploadRow(true)
                 prepareStartNumber(SN_TIMEOUT, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
@@ -217,7 +222,6 @@ function prepareScreen(data) {
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareUploadRow(true)
                 prepareStartNumber(SN_TIMEOUT, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
@@ -225,7 +229,6 @@ function prepareScreen(data) {
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareUploadRow(true)
                 prepareStartNumber(SN_TIMEOUT, data)
                 document.getElementById('nftDetail').style.display = 'none'
                 break;
@@ -233,7 +236,6 @@ function prepareScreen(data) {
                 prepareAthlete(1, data.athlete)
                 preparePromocode(true, data.race.promocode)
                 preparePrice(data.race.price)
-                prepareUploadRow(true)
                 prepareStartNumber(SN_TIMEOUT, data)
                 showNft(data)
                 break;

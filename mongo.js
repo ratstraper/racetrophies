@@ -43,8 +43,10 @@ export class MongoDB {
   }
 
   async getRawRegister(race_id, bib) {
+    console.log("raceId:", race_id, "bib:", bib)
     const db = this.client.db(dbName)
     let reg = await db.collection("registration").find({$and: [{ raceId: { $eq: race_id } }, { bib: { $eq: bib } }]}).toArray()
+    console.log('Found documents =>', reg)
     if(reg.length > 0) {
       return reg
     }
@@ -125,6 +127,30 @@ export class MongoDB {
       throw err;
     }
   }
+
+  async insertTrackMongoDB (raceId, bib, originalFile, localFile, uploadDate, meters, time, date) {
+    try {
+      const db = this.client.db(dbName)
+      let insert_res = await db.collection('registration').insertOne({
+        orgId: 0, 
+        raceId: Number(raceId),
+        bib: bib, //Number(race_register.runner_number),
+        action: 'TR',
+        upload_date: uploadDate,
+        upload_file: localFile,
+        original_file: originalFile,
+        meters: 0,
+        time: 0,
+        date: 0
+      });
+      return insert_res.insertedId;
+    } catch (err) {
+      console.error('Error inserting race:', err);
+      throw err;
+    }
+  }
+
+
 
   /**
    * Получить рассотяние которое уже пробежали
